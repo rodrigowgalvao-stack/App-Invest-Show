@@ -32,9 +32,25 @@ class GrupoIndicadores {
 }
 
 class PontoHistorico {
-  const PontoHistorico(this.data, this.fechamento);
+  const PontoHistorico(
+    this.data,
+    this.fechamento, {
+    double? abertura,
+    double? maxima,
+    double? minima,
+    this.volume,
+  })  : abertura = abertura ?? fechamento,
+        maxima = maxima ?? fechamento,
+        minima = minima ?? fechamento;
+
   final DateTime data;
   final double fechamento;
+
+  /// Sem o dado, ficam iguais ao fechamento (candle vira um traço).
+  final double abertura;
+  final double maxima;
+  final double minima;
+  final double? volume;
 }
 
 class Acao {
@@ -74,7 +90,13 @@ class Acao {
       final c = numero(p['close']) ?? numero(p['adjustedClose']);
       if (d == null || c == null) continue;
       historico.add(PontoHistorico(
-          DateTime.fromMillisecondsSinceEpoch(d.toInt() * 1000), c));
+        DateTime.fromMillisecondsSinceEpoch(d.toInt() * 1000),
+        c,
+        abertura: _positivo(p['open']),
+        maxima: _positivo(p['high']),
+        minima: _positivo(p['low']),
+        volume: numero(p['volume']),
+      ));
     }
     historico.sort((a, b) => a.data.compareTo(b.data));
 
@@ -91,6 +113,12 @@ class Acao {
       fundamentos: fundamentos,
     );
   }
+}
+
+/// A brapi às vezes manda 0 em abertura/máxima/mínima quando não tem o dado.
+double? _positivo(dynamic v) {
+  final x = numero(v);
+  return (x == null || x <= 0) ? null : x;
 }
 
 /// Aceita número, texto ou o formato {raw: x, fmt: "..."}.

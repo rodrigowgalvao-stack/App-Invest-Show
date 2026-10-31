@@ -4,6 +4,7 @@ import '../models/acao.dart';
 import '../services/brapi_service.dart';
 import '../services/watchlist_storage.dart';
 import '../widgets/formatacao.dart';
+import '../widgets/grafico_preco.dart';
 import '../widgets/ticker_dialog.dart';
 
 class ComparadorScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _ComparadorScreenState extends State<ComparadorScreen> {
   }
 
   Future<void> _outra() async {
-    final t = await pedirTicker(context);
+    final t = await pedirTicker(context, widget.api, titulo: 'Comparar com');
     if (t == null) return;
     setState(() {
       if (!_opcoes.contains(t)) _opcoes.add(t);
@@ -113,6 +114,15 @@ class _ComparadorScreenState extends State<ComparadorScreen> {
                 style: TextStyle(color: cs.error)),
           ),
       if (ok.isNotEmpty) ...[
+        Text('Desempenho em 3 meses', style: Theme.of(context).textTheme.titleSmall),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 220,
+          child: GraficoRentabilidade(
+            series: {for (final a in ok) a.ticker: a.historico},
+          ),
+        ),
+        const SizedBox(height: 16),
         Card(clipBehavior: Clip.antiAlias, child: _tabela(ok)),
         const SizedBox(height: 8),
         Text('Em verde, o melhor valor entre as ações comparadas.',

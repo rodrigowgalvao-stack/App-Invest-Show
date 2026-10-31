@@ -16,9 +16,18 @@ class DetalheScreen extends StatefulWidget {
 }
 
 class _DetalheScreenState extends State<DetalheScreen> {
-  static const _periodos = {'1mo': '1M', '3mo': '3M', '1y': '1A'};
+  static const _periodos = {
+    '5d': '5D',
+    '1mo': '1M',
+    '3mo': '3M',
+    '6mo': '6M',
+    '1y': '1A',
+  };
 
   String _range = '3mo';
+  TipoGrafico _tipo = TipoGrafico.linha;
+  final Set<int> _medias = {};
+  bool _volume = false;
   late Future<Acao> _futuro;
 
   @override
@@ -58,6 +67,48 @@ class _DetalheScreenState extends State<DetalheScreen> {
     );
   }
 
+  Widget _opcoesGrafico() {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 4,
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        SegmentedButton<TipoGrafico>(
+          showSelectedIcon: false,
+          style: const ButtonStyle(visualDensity: VisualDensity.compact),
+          segments: const [
+            ButtonSegment(
+                value: TipoGrafico.linha,
+                icon: Icon(Icons.show_chart),
+                tooltip: 'Linha'),
+            ButtonSegment(
+                value: TipoGrafico.candles,
+                icon: Icon(Icons.candlestick_chart),
+                tooltip: 'Candles'),
+          ],
+          selected: {_tipo},
+          onSelectionChanged: (s) => setState(() => _tipo = s.first),
+        ),
+        for (final n in mediasDisponiveis)
+          FilterChip(
+            label: Text('MM$n'),
+            tooltip: 'Média móvel de $n pregões',
+            visualDensity: VisualDensity.compact,
+            selected: _medias.contains(n),
+            onSelected: (v) =>
+                setState(() => v ? _medias.add(n) : _medias.remove(n)),
+          ),
+        FilterChip(
+          label: const Text('Volume'),
+          visualDensity: VisualDensity.compact,
+          selected: _volume,
+          onSelected: (v) => setState(() => _volume = v),
+        ),
+      ],
+    );
+  }
+
   Widget _conteudo(Acao a) {
     final tema = Theme.of(context);
     final cs = tema.colorScheme;
@@ -91,6 +142,8 @@ class _DetalheScreenState extends State<DetalheScreen> {
           const SizedBox(height: 16),
           Center(
             child: SegmentedButton<String>(
+              showSelectedIcon: false,
+              style: const ButtonStyle(visualDensity: VisualDensity.compact),
               segments: [
                 for (final e in _periodos.entries)
                   ButtonSegment(value: e.key, label: Text(e.value)),
@@ -102,8 +155,18 @@ class _DetalheScreenState extends State<DetalheScreen> {
               },
             ),
           ),
+          const SizedBox(height: 8),
+          _opcoesGrafico(),
           const SizedBox(height: 12),
-          SizedBox(height: 220, child: GraficoPreco(pontos: a.historico)),
+          SizedBox(
+            height: _volume ? 290 : 240,
+            child: GraficoPreco(
+              pontos: a.historico,
+              tipo: _tipo,
+              medias: _medias,
+              volume: _volume,
+            ),
+          ),
           if (a.minimo52 != null && a.maximo52 != null && a.preco != null)
             _Faixa52(min: a.minimo52!, max: a.maximo52!, atual: a.preco!),
           if (!a.temFundamentos)

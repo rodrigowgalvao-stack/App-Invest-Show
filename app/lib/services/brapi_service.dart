@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../config.dart';
 import '../models/acao.dart';
+import '../models/ativo_busca.dart';
 import 'fundamentos_service.dart';
 
 class BrapiException implements Exception {
@@ -109,6 +110,60 @@ class BrapiService {
   }) =>
       Future.wait(tickers
           .map((t) => resultado(t, completo: completo, forcar: forcar)));
+
+  /// Busca por código ou nome. As ações da CVM respondem na hora (o
+  /// arquivo já está em memória); a brapi completa com FIIs, ETFs e BDRs.
+  /// Se a brapi falhar, fica só a lista local.
+  Future<List<AtivoBusca>> buscar(String termo) async {
+    final q = termo.trim();
+    if (q.isEmpty) return const [];
+    final locais = await buscarLocal(q);
+    final remotos = await _buscarBrapi(q);
+
+    final porTicker = {for (final a in locais) a.ticker: a};
+    for (final r in remotos) {
+      porTicker[r.ticker] = porTicker[r.ticker]?.completar(r) ?? r;
+    }
+    final ordenados = filtrarAtivos(porTicker.values, q);
+    // A brapi às vezes acha pelo nome comercial, que não está no nosso
+    // texto: esses vão para o fim em vez de sumir.
+    final vistos = {for (final a in ordenados) a.ticker};
+    return [
+      ...ordenados,
+      for (final r in remotos)
+        if (vistos.add(r.ticker)) porTicker[r.ticker]!,
+    ];
+  }
+
+  /// Só a lista da CVM (sem rede, depois do primeiro download).
+  Future<List<AtivoBusca>> buscarLocal(String termo) async {
+    final todos = await _fundamentos.todos();
+    return filtrarAtivos([
+      for (final e in todos.entries)
+        AtivoBusca(
+            ticker: e.key, nome: e.value.nome ?? e.key, setor: e.value.setor),
+    ], termo);
+  }
+
+  Future<List<AtivoBusca>> _buscarBrapi(String termo) async {
+    try {
+      final uri = Uri.parse('$_base/quote/list')
+          .replace(queryParameters: {'search': termo, 'limit': '20'});
+      final r = await _client
+          .get(uri, headers: _headers)
+          .timeout(const Duration(seconds: 10));
+      if (r.statusCode != 200) return const [];
+      final body = jsonDecode(utf8.decode(r.bodyBytes));
+      final lista = body is Map ? body['stocks'] : null;
+      if (lista is! List) return const [];
+      return [
+        for (final x in lista)
+          if (x is Map) AtivoBusca.fromBrapi(Map<String, dynamic>.from(x)),
+      ].where((a) => a.ticker.isNotEmpty).toList();
+    } catch (_) {
+      return const [];
+    }
+  }
 
   String _mensagemErro(http.Response r) {
     String? msg;

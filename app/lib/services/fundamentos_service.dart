@@ -28,6 +28,15 @@ class FundamentosService {
     }
   }
 
+  /// Todas as ações com balanço na CVM: alimenta a busca por nome.
+  Future<Map<String, Fundamentos>> todos() async {
+    try {
+      return await _todos();
+    } catch (_) {
+      return const {};
+    }
+  }
+
   Future<Map<String, Fundamentos>> _todos() {
     final emCache = _porTicker;
     if (emCache != null &&

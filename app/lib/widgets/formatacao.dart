@@ -37,3 +37,8 @@ Color corVariacao(BuildContext context, double? v) {
   }
   return v! > 0 ? Colors.green.shade600 : Colors.red.shade600;
 }
+
+final _volume = NumberFormat.compact(locale: 'pt_BR');
+
+/// Quantidade de ações negociadas: 12,3 mi.
+String fmtVolume(double? v) => _valido(v) ? _volume.format(v) : '—';

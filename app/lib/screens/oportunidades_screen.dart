@@ -8,6 +8,7 @@ import '../services/oportunidades_service.dart';
 import '../services/watchlist_storage.dart';
 import '../widgets/estado_erro.dart';
 import '../widgets/formatacao.dart';
+import '../widgets/ticker_dialog.dart';
 import 'detalhe_screen.dart';
 
 class OportunidadesScreen extends StatefulWidget {
@@ -60,7 +61,16 @@ class _OportunidadesScreenState extends State<OportunidadesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Oportunidades')),
+      appBar: AppBar(
+        title: const Text('Oportunidades'),
+        actions: [
+          IconButton(
+            tooltip: 'Buscar ação',
+            icon: const Icon(Icons.search),
+            onPressed: () => abrirBusca(context, widget.api),
+          ),
+        ],
+      ),
       body: FutureBuilder<RelatorioOportunidades>(
         future: _futuro,
         builder: (context, snap) {

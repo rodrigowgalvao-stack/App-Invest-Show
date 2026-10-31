@@ -43,7 +43,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   }
 
   Future<void> _adicionar() async {
-    final t = await pedirTicker(context);
+    final t = await pedirTicker(context, widget.api, titulo: 'Adicionar à lista');
     if (t == null || _tickers.contains(t)) return;
     setState(() => _tickers.add(t));
     await widget.storage.salvar(_tickers);
@@ -65,6 +65,11 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       appBar: AppBar(
         title: const Text('Minha lista'),
         actions: [
+          IconButton(
+            tooltip: 'Buscar ação',
+            icon: const Icon(Icons.search),
+            onPressed: () => abrirBusca(context, widget.api),
+          ),
           IconButton(
             tooltip: 'Atualizar cotações',
             icon: const Icon(Icons.refresh),

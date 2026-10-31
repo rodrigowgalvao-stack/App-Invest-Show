@@ -5,6 +5,7 @@ import 'acao.dart';
 /// aqui com a cotação do dia.
 class Fundamentos {
   const Fundamentos({
+    this.nome,
     this.setor,
     this.dataBalanco,
     this.financeira = false,
@@ -28,6 +29,8 @@ class Fundamentos {
     this.crescLucro,
   });
 
+  /// Razão social na CVM (usada na busca por nome).
+  final String? nome;
   final String? setor;
   final DateTime? dataBalanco;
   final bool financeira;
@@ -51,6 +54,7 @@ class Fundamentos {
   final double? crescLucro;
 
   factory Fundamentos.fromJson(Map<String, dynamic> j) => Fundamentos(
+        nome: j['nome'] as String?,
         setor: j['setor'] as String?,
         dataBalanco: DateTime.tryParse('${j['data_balanco'] ?? ''}'),
         financeira: j['financeira'] == true,
