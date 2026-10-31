@@ -154,12 +154,15 @@ class _OportunidadesScreenState extends State<OportunidadesScreen> {
             const SizedBox(height: 8),
             const Text(
               'Toda semana o robô analisa as ações mais negociadas da B3 '
-              '(uma classe por empresa) e elimina as que não passam nos filtros abaixo.\n\n'
+              '(uma classe por empresa) e elimina as que não passam nos filtros abaixo. '
+              'Os indicadores vêm dos balanços oficiais entregues à CVM, '
+              'somando os últimos 12 meses.\n\n'
               'Preço justo de Graham: √(22,5 × LPA × VPA).\n'
-              'Preço justo de Bazin: dividendos dos últimos 12 meses ÷ taxa de Bazin.\n'
+              'Preço justo de Bazin: dividendos e JCP pagos nos últimos 12 meses ÷ taxa de Bazin.\n'
               'Potencial: quanto o preço justo está acima do preço atual.\n\n'
               'A nota (0 a 100) pesa ROE (30%), margem líquida (20%), '
-              'lucro sobre preço (25%) e o maior potencial entre Graham e Bazin (25%).',
+              'lucro sobre preço (25%) e o maior potencial entre Graham e Bazin (25%). '
+              'Para bancos, que não têm margem líquida, os outros fatores pesam mais.',
             ),
             const SizedBox(height: 16),
             for (final e in rotulos.entries)
@@ -177,7 +180,7 @@ class _OportunidadesScreenState extends State<OportunidadesScreen> {
             Text(
               'É um filtro para escolher o que analisar, não uma recomendação. '
               'Graham funciona mal para empresas de crescimento, e um lucro '
-              'não recorrente pode distorcer tudo.',
+              'não recorrente ou um dividendo extraordinário pode distorcer tudo.',
               style: Theme.of(ctx).textTheme.bodySmall,
             ),
           ],

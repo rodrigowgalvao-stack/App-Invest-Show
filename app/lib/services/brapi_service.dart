@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../config.dart';
 import '../models/acao.dart';
+import 'fundamentos_service.dart';
 
 class BrapiException implements Exception {
   BrapiException(this.mensagem);
@@ -23,20 +24,24 @@ class ResultadoCotacao {
   final String? erro;
 }
 
+/// Cotação e histórico vêm da brapi (liberados no plano gratuito); os
+/// indicadores vêm do arquivo que o robô gera com os balanços da CVM.
 class BrapiService {
-  BrapiService({http.Client? client}) : _client = client ?? http.Client();
+  BrapiService({http.Client? client, FundamentosService? fundamentos})
+      : _client = client ?? http.Client(),
+        _fundamentos = fundamentos ?? FundamentosService(client: client);
 
   static const _base = 'https://brapi.dev/api';
   static const _validadeCache = Duration(minutes: 5);
-  static const _modulos = 'summaryProfile,defaultKeyStatistics,financialData';
 
   final http.Client _client;
+  final FundamentosService _fundamentos;
   final Map<String, _ItemCache> _cache = {};
 
   Map<String, String> get _headers =>
       brapiToken.isEmpty ? const {} : {'Authorization': 'Bearer $brapiToken'};
 
-  /// [completo] = true traz histórico, dividendos e indicadores fundamentalistas.
+  /// [completo] = true traz histórico e indicadores fundamentalistas.
   Future<Acao> cotacao(
     String ticker, {
     bool completo = false,
@@ -53,13 +58,9 @@ class BrapiService {
     }
 
     final params = <String, String>{
-      if (completo) ...{
-        'modules': _modulos,
-        'dividends': 'true',
-        'range': range,
-        'interval': '1d',
-      },
+      if (completo) ...{'range': range, 'interval': '1d'},
     };
+    final fundamentos = completo ? _fundamentos.de(t) : null;
     final uri = Uri.parse('$_base/quote/$t')
         .replace(queryParameters: params.isEmpty ? null : params);
 
@@ -81,7 +82,8 @@ class BrapiService {
     if (results is! List || results.isEmpty) {
       throw BrapiException('$t não encontrado.');
     }
-    final acao = Acao.fromJson(Map<String, dynamic>.from(results.first as Map));
+    final acao = Acao.fromJson(Map<String, dynamic>.from(results.first as Map),
+        fundamentos: await fundamentos);
     _cache[chave] = _ItemCache(acao, DateTime.now());
     return acao;
   }
@@ -116,7 +118,7 @@ class BrapiService {
     } catch (_) {}
     final base = switch (r.statusCode) {
       401 => 'Token inválido ou ausente.',
-      402 || 403 => 'Recurso fora do seu plano da brapi.',
+      402 || 403 => 'Recurso fora do seu plano da brapi ou ativo não liberado sem token.',
       404 => 'Ativo não encontrado.',
       429 => 'Limite de requisições atingido. Tente mais tarde.',
       _ => 'Erro ${r.statusCode} ao consultar a brapi.',

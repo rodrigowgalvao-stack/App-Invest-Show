@@ -24,12 +24,12 @@ jobs:
       - name: Rodar screener
         run: python screener/screener.py
         env:
-          BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}
+          BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}  # opcional: a lista de ações funciona sem token
 
       - name: Publicar resultado
         run: |
           git config user.name "screener-bot"
           git config user.email "screener-bot@users.noreply.github.com"
-          git add dados/oportunidades.json
+          git add dados/oportunidades.json dados/fundamentos.json
           git diff --cached --quiet || git commit -m "Oportunidades $(date +%F)"
           git push

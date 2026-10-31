@@ -2,20 +2,31 @@
 
 ```
 app/                        app Flutter (Oportunidades, Minha lista, Comparar)
-screener/screener.py        robô que varre a B3 e monta o ranking
+screener/screener.py        robô que varre a B3, calcula os indicadores e monta o ranking
+screener/cvm.py             leitura dos balanços oficiais (dados abertos da CVM)
 .github/workflows/          agenda o robô toda semana
-dados/oportunidades.json    ranking gerado pelo robô (o app lê este arquivo)
+dados/fundamentos.json      indicadores de todas as ações (telas Detalhe e Comparar)
+dados/oportunidades.json    ranking (aba Oportunidades)
 ```
+
+## De onde vêm os dados
+
+Tudo funciona no plano **gratuito** da brapi:
+
+- **brapi**: só cotação, histórico de preços e a lista de ações com volume e valor de mercado.
+- **CVM** (dados.cvm.gov.br): balanço, DRE e fluxo de caixa de todas as companhias abertas, gratuitos e oficiais. O robô baixa uma vez por semana e calcula lucro, patrimônio, EBITDA, dívida e dividendos dos últimos 12 meses.
+
+O app junta as duas fontes: os indicadores que dependem do preço (P/L, P/VP, DY, valor de mercado) são recalculados com a cotação do dia.
 
 ## 1. Subir para o GitHub
 
 1. Crie um repositório **público** (ex.: `acoes`) e envie esta pasta inteira.
    Público porque o app baixa o ranking direto do GitHub sem login. O repositório só tem código e dados de mercado; o token fica protegido no passo 2.
-2. Em **Settings → Secrets and variables → Actions → New repository secret**, crie `BRAPI_TOKEN` com o seu token da brapi.
-3. Em **Settings → Actions → General → Workflow permissions**, marque **Read and write permissions** (o robô precisa gravar o ranking).
-4. Em **Actions → Screener semanal → Run workflow**, rode a primeira vez. Leva alguns minutos. Depois disso ele roda sozinho todo domingo às 19h.
+2. (Opcional) Em **Settings → Secrets and variables → Actions → New repository secret**, crie `BRAPI_TOKEN` com o seu token da brapi. O robô funciona sem ele.
+3. Se a primeira execução falhar no `git push`, vá em **Settings → Actions → General → Workflow permissions** e marque **Read and write permissions** (o robô precisa gravar os arquivos).
+4. Em **Actions → Screener semanal → Run workflow**, rode a primeira vez. Leva uns 2 minutos. Depois disso ele roda sozinho todo domingo às 19h.
 
-Se a execução falhar dizendo que a API não devolveu indicadores, o seu plano da brapi não inclui os módulos fundamentalistas.
+Para rodar no computador: `pip install requests` e `python screener/screener.py`.
 
 ## 2. Ajustar os critérios (opcional)
 
@@ -52,12 +63,21 @@ flutter build apk --release \
 
 O APK sai em `app/build/app/outputs/flutter-apk/app-release.apk`. Para testar ligado ao PC, use `flutter run` com os mesmos `--dart-define`.
 
+O app procura `fundamentos.json` na mesma pasta de `OPORTUNIDADES_URL`. O token da brapi no app serve só para as cotações; sem ele, apenas PETR4, VALE3, ITUB4 e MGLU3 respondem.
+
 ## Como o ranking funciona
 
-1. Pega as 300 ações mais negociadas, uma classe por empresa, com valor de mercado acima de R$ 500 milhões.
-2. Elimina: lucro ou patrimônio negativos, ROE abaixo de 10%, margem líquida negativa, Dív. líquida/EBITDA acima de 3, P/L acima de 30, e preço acima do preço justo de Graham **e** de Bazin.
-3. Preço justo de Graham = √(22,5 × LPA × VPA). Preço justo de Bazin = dividendos de 12 meses ÷ 6%.
-4. Nota de 0 a 100 por posição relativa: ROE 30%, margem líquida 20%, lucro/preço 25%, maior potencial (Graham ou Bazin) 25%.
-5. As 15 melhores vão para `dados/oportunidades.json`. O arquivo também registra quantas ações caíram em cada filtro.
+1. Pega as 300 ações mais negociadas, uma classe por empresa.
+2. Para cada empresa, soma os últimos 12 meses do último balanço entregue à CVM: acumulado do ITR + exercício anterior − mesmo período do ano anterior.
+3. Elimina: valor de mercado abaixo de R$ 500 milhões, balanço com mais de 400 dias, lucro ou patrimônio negativos, ROE abaixo de 10%, margem líquida negativa, Dív. líquida/EBITDA acima de 3, P/L acima de 30, e preço acima do preço justo de Graham **e** de Bazin.
+4. Preço justo de Graham = √(22,5 × LPA × VPA). Preço justo de Bazin = dividendos e JCP pagos em 12 meses (fluxo de caixa) ÷ 6%.
+5. Nota de 0 a 100 por posição relativa: ROE 30%, margem líquida 20%, lucro/preço 25%, maior potencial (Graham ou Bazin) 25%. Bancos não têm margem líquida; para eles os outros fatores pesam mais.
+6. As 15 melhores vão para `dados/oportunidades.json`, com quantas ações caíram em cada filtro.
+
+Limitações conhecidas:
+
+- **Dividendos** são os pagos no caixa, incluindo extraordinários; o DY pode estar inflado por um pagamento que não se repete.
+- **Quantidade de ações** vem do balanço; se houve desdobramento ou emissão depois dele (diferença maior que 2x para o valor de mercado da brapi), o robô usa a quantidade implícita no valor de mercado.
+- **EBITDA** = resultado operacional + depreciação e amortização do fluxo de caixa; não há EBITDA, margens nem dívida para bancos e seguradoras.
 
 É um filtro para escolher o que analisar, não recomendação de compra.

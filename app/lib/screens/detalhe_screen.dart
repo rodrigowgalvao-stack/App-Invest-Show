@@ -112,15 +112,24 @@ class _DetalheScreenState extends State<DetalheScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  'A brapi não devolveu indicadores para este ativo. '
-                  'Ou o seu plano não inclui os módulos fundamentalistas, '
-                  'ou o ativo não tem esses dados (FIIs e ETFs, por exemplo).',
+                  'Sem indicadores para este ativo. Eles vêm dos balanços da CVM, '
+                  'que FIIs, ETFs e BDRs não publicam. Se for uma ação, o robô '
+                  'semanal pode ainda não ter rodado (veja o README).',
                   style: TextStyle(color: cs.onSurfaceVariant),
                 ),
               ),
             )
-          else
+          else ...[
             for (final g in a.grupos) _CardGrupo(grupo: g),
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Text(
+                'Balanço de ${a.fundamentos!.dataBalanco == null ? '—' : fmtData(a.fundamentos!.dataBalanco!)} '
+                '(CVM). P/L, P/VP, DY e valor de mercado usam o preço atual.',
+                style: tema.textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+              ),
+            ),
+          ],
         ],
       ),
     );
