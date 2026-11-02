@@ -30,7 +30,7 @@ void main() {
           body: SizedBox(
             height: 300,
             child: GraficoPreco(
-                pontos: historico(70), tipo: tipo, medias: {20, 50}, volume: true),
+                pontos: historico(70), tipo: tipo, medias: const {20, 50}, volume: true),
           ),
         ),
       ));

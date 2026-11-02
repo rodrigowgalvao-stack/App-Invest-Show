@@ -5,6 +5,44 @@ enum Formato { multiplo, percentual, moeda, moedaCompacta }
 /// Usado no comparador para destacar o melhor valor.
 enum Melhor { maior, menor }
 
+enum Comparacao {
+  menor('<'),
+  menorIgual('≤'),
+  maior('>'),
+  maiorIgual('≥');
+
+  const Comparacao(this.simbolo);
+  final String simbolo;
+}
+
+/// Valor de referência da literatura (Graham, Bazin, Buffett...) ou da
+/// prática de mercado. É régua, não regra: setores diferentes têm faixas
+/// diferentes.
+class Referencia {
+  const Referencia(this.comparacao, this.limite, this.fonte,
+      {this.rotuloLimite});
+
+  final Comparacao comparacao;
+  final double limite;
+
+  /// Quem propôs, ex.: "Graham".
+  final String fonte;
+
+  /// Substitui o número formatado, ex.: "preço atual".
+  final String? rotuloLimite;
+
+  /// null quando não há valor para comparar.
+  bool? atende(double? v) {
+    if (v == null || !v.isFinite) return null;
+    return switch (comparacao) {
+      Comparacao.menor => v < limite,
+      Comparacao.menorIgual => v <= limite,
+      Comparacao.maior => v > limite,
+      Comparacao.maiorIgual => v >= limite,
+    };
+  }
+}
+
 class Indicador {
   const Indicador(
     this.nome,
@@ -13,7 +51,17 @@ class Indicador {
     this.ajuda, {
     this.melhor,
     this.soPositivos = false,
+    this.referencia,
   });
+
+  final Referencia? referencia;
+
+  /// Prejuízo deixa P/L negativo, "abaixo de 15", mas não é bom sinal.
+  bool? get atendeReferencia {
+    final r = referencia?.atende(valor);
+    if (r == true && soPositivos && valor! <= 0) return false;
+    return r;
+  }
 
   final String nome;
   final double? valor;

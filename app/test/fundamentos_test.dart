@@ -1,5 +1,8 @@
+import 'dart:math' as math;
+
 import 'package:acoes_app/models/acao.dart';
 import 'package:acoes_app/models/fundamentos.dart';
+import 'package:acoes_app/widgets/formatacao.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 double? valor(List<GrupoIndicadores> grupos, String nome) =>
@@ -41,5 +44,39 @@ void main() {
   test('EV/EBITDA fica vazio com EBITDA negativo', () {
     final f = Fundamentos.fromJson({'valor_mercado': 1e9, 'preco_ref': 10, 'divida_liquida': 1e8, 'ebitda_12m': -5e7});
     expect(valor(gruposIndicadores(f, 10), 'EV/EBITDA'), isNull);
+  });
+
+  Indicador item(List<GrupoIndicadores> g, String nome) =>
+      g.expand((x) => x.itens).firstWhere((i) => i.nome == nome);
+
+  test('referências da literatura', () {
+    final g = gruposIndicadores(petr4, 60.0);
+    // P/L 5,8 ≤ 15 (Graham) e ROE 27,7% ≥ 15% (Buffett).
+    expect(item(g, 'P/L').atendeReferencia, isTrue);
+    expect(item(g, 'ROE').atendeReferencia, isTrue);
+    expect(fmtReferencia(item(g, 'P/L').referencia!, Formato.multiplo),
+        '≤ 15x (Graham)');
+    expect(fmtReferencia(item(g, 'P/VP').referencia!, Formato.multiplo),
+        '≤ 1,5x (Graham)');
+    expect(fmtReferencia(item(g, 'Dividend yield (12m)').referencia!,
+        Formato.percentual), '≥ 6% (Bazin)');
+    // Sem dado, sem selo.
+    expect(item(g, 'Margem bruta').atendeReferencia, isNull);
+  });
+
+  test('preço justo de Graham e preço teto de Bazin', () {
+    final g = gruposIndicadores(petr4, 60.0);
+    expect(valor(g, 'Preço justo (Graham)'),
+        closeTo(math.sqrt(22.5 * 10.3483 * 37.3155), 1e-9));
+    expect(valor(g, 'Preço teto (Bazin)'), closeTo(2.9737 / 0.06, 1e-9));
+    // Graham ≈ 93 ≥ 60 (atende); Bazin ≈ 49,6 < 60 (não atende).
+    expect(item(g, 'Preço justo (Graham)').atendeReferencia, isTrue);
+    expect(item(g, 'Preço teto (Bazin)').atendeReferencia, isFalse);
+  });
+
+  test('P/L negativo (prejuízo) não atende à referência', () {
+    final prejuizo = Fundamentos.fromJson({'lpa': -2.0});
+    final g = gruposIndicadores(prejuizo, 10.0);
+    expect(item(g, 'P/L').atendeReferencia, isFalse);
   });
 }

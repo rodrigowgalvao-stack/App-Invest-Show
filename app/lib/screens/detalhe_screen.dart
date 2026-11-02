@@ -188,7 +188,9 @@ class _DetalheScreenState extends State<DetalheScreen> {
               padding: const EdgeInsets.only(top: 12),
               child: Text(
                 'Balanço de ${a.fundamentos!.dataBalanco == null ? '—' : fmtData(a.fundamentos!.dataBalanco!)} '
-                '(CVM). P/L, P/VP, DY e valor de mercado usam o preço atual.',
+                '(CVM). P/L, P/VP, DY e valor de mercado usam o preço atual. '
+                '✔ verde: dentro da referência; ! laranja: fora dela. Toque num '
+                'indicador para ver a explicação.',
                 style: tema.textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
               ),
             ),
@@ -250,6 +252,18 @@ class _CardGrupo extends StatelessWidget {
             Text(i.nome, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
             Text(i.ajuda),
+            if (i.referencia != null) ...[
+              const SizedBox(height: 12),
+              Text('Referência: ${fmtReferencia(i.referencia!, i.formato)}',
+                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 4),
+              Text(
+                'Valor usado pela literatura de análise fundamentalista ou pelo '
+                'mercado. Serve de régua, não de regra: compare também com '
+                'empresas do mesmo setor.',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
           ],
         ),
       ),
@@ -277,9 +291,20 @@ class _CardGrupo extends StatelessWidget {
               ListTile(
                 dense: true,
                 title: Text(i.nome),
-                trailing: Text(formatar(i.valor, i.formato),
-                    style: tema.textTheme.bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w600)),
+                subtitle: i.referencia == null
+                    ? null
+                    : Text('Ref.: ${fmtReferencia(i.referencia!, i.formato)}',
+                        style: TextStyle(color: tema.colorScheme.onSurfaceVariant)),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(formatar(i.valor, i.formato),
+                        style: tema.textTheme.bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.w600)),
+                    const SizedBox(width: 6),
+                    SizedBox(width: 16, child: seloReferencia(i)),
+                  ],
+                ),
                 onTap: () => _ajuda(context, i),
               ),
           ],
