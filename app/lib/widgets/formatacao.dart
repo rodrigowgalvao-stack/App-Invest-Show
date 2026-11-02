@@ -37,3 +37,32 @@ Color corVariacao(BuildContext context, double? v) {
   }
   return v! > 0 ? Colors.green.shade600 : Colors.red.shade600;
 }
+
+final _volume = NumberFormat.compact(locale: 'pt_BR');
+
+/// Quantidade de ações negociadas: 12,3 mi.
+String fmtVolume(double? v) => _valido(v) ? _volume.format(v) : '—';
+
+final _enxuto = NumberFormat('#,##0.##', 'pt_BR');
+
+/// "≤ 15x (Graham)", "≥ 6% (Bazin)", "≥ preço atual (Graham)".
+String fmtReferencia(Referencia r, Formato f) {
+  final limite = r.rotuloLimite ??
+      switch (f) {
+        Formato.multiplo => '${_enxuto.format(r.limite)}x',
+        Formato.percentual => '${_enxuto.format(r.limite)}%',
+        Formato.moeda => fmtMoeda(r.limite),
+        Formato.moedaCompacta => r.limite == 0 ? '0' : _compacta.format(r.limite),
+      };
+  return '${r.comparacao.simbolo} $limite (${r.fonte})';
+}
+
+/// Verde se atende à referência, laranja se não (vermelho fica para queda).
+Widget? seloReferencia(Indicador i, {double tamanho = 16}) {
+  final ok = i.atendeReferencia;
+  if (ok == null) return null;
+  return Icon(ok ? Icons.check_circle : Icons.error_outline,
+      size: tamanho,
+      color: ok ? Colors.green.shade600 : Colors.orange.shade700,
+      semanticLabel: ok ? 'Dentro da referência' : 'Fora da referência');
+}

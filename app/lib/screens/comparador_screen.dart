@@ -4,6 +4,7 @@ import '../models/acao.dart';
 import '../services/brapi_service.dart';
 import '../services/watchlist_storage.dart';
 import '../widgets/formatacao.dart';
+import '../widgets/grafico_preco.dart';
 import '../widgets/ticker_dialog.dart';
 
 class ComparadorScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _ComparadorScreenState extends State<ComparadorScreen> {
   }
 
   Future<void> _outra() async {
-    final t = await pedirTicker(context);
+    final t = await pedirTicker(context, widget.api, titulo: 'Comparar com');
     if (t == null) return;
     setState(() {
       if (!_opcoes.contains(t)) _opcoes.add(t);
@@ -113,9 +114,19 @@ class _ComparadorScreenState extends State<ComparadorScreen> {
                 style: TextStyle(color: cs.error)),
           ),
       if (ok.isNotEmpty) ...[
+        Text('Desempenho em 3 meses', style: Theme.of(context).textTheme.titleSmall),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 220,
+          child: GraficoRentabilidade(
+            series: {for (final a in ok) a.ticker: a.historico},
+          ),
+        ),
+        const SizedBox(height: 16),
         Card(clipBehavior: Clip.antiAlias, child: _tabela(ok)),
         const SizedBox(height: 8),
-        Text('Em verde, o melhor valor entre as ações comparadas.',
+        Text('Em verde, o melhor valor entre as ações comparadas. '
+            '✔ dentro da referência; ! fora dela.',
             style: Theme.of(context).textTheme.bodySmall),
       ],
     ];
@@ -127,14 +138,18 @@ class _ComparadorScreenState extends State<ComparadorScreen> {
     final tituloGrupo = TextStyle(
         fontWeight: FontWeight.w600,
         color: Theme.of(context).colorScheme.primary);
+    final refEstilo = TextStyle(
+        fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant);
     final base = acoes.first.grupos;
     final linhas = <DataRow>[
       DataRow(cells: [
         const DataCell(Text('Preço')),
+        const DataCell(SizedBox()),
         for (final a in acoes) DataCell(Text(fmtMoeda(a.preco))),
       ]),
       DataRow(cells: [
         const DataCell(Text('Variação no dia')),
+        const DataCell(SizedBox()),
         for (final a in acoes)
           DataCell(Text(fmtVariacao(a.variacaoPct),
               style: TextStyle(color: corVariacao(context, a.variacaoPct)))),
@@ -144,16 +159,29 @@ class _ComparadorScreenState extends State<ComparadorScreen> {
     for (var g = 0; g < base.length; g++) {
       linhas.add(DataRow(cells: [
         DataCell(Text(base[g].titulo, style: tituloGrupo)),
-        for (var k = 0; k < acoes.length; k++) const DataCell(SizedBox()),
+        for (var k = 0; k <= acoes.length; k++) const DataCell(SizedBox()),
       ]));
       for (var i = 0; i < base[g].itens.length; i++) {
         final itens = [for (final a in acoes) a.grupos[g].itens[i]];
         final melhor = _indiceMelhor(itens);
+        final ref = itens.first.referencia;
         linhas.add(DataRow(cells: [
           DataCell(Text(itens.first.nome)),
+          DataCell(Text(
+              ref == null ? '' : fmtReferencia(ref, itens.first.formato),
+              style: refEstilo)),
           for (var k = 0; k < itens.length; k++)
-            DataCell(Text(formatar(itens[k].valor, itens[k].formato),
-                style: k == melhor ? destaque : null)),
+            DataCell(Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(formatar(itens[k].valor, itens[k].formato),
+                    style: k == melhor ? destaque : null),
+                if (seloReferencia(itens[k], tamanho: 14) case final selo?) ...[
+                  const SizedBox(width: 4),
+                  selo,
+                ],
+              ],
+            )),
         ]));
       }
     }
@@ -164,6 +192,7 @@ class _ComparadorScreenState extends State<ComparadorScreen> {
         columnSpacing: 20,
         columns: [
           const DataColumn(label: Text('Indicador')),
+          const DataColumn(label: Text('Referência')),
           for (final a in acoes)
             DataColumn(
               numeric: true,

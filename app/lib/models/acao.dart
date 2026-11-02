@@ -5,6 +5,44 @@ enum Formato { multiplo, percentual, moeda, moedaCompacta }
 /// Usado no comparador para destacar o melhor valor.
 enum Melhor { maior, menor }
 
+enum Comparacao {
+  menor('<'),
+  menorIgual('≤'),
+  maior('>'),
+  maiorIgual('≥');
+
+  const Comparacao(this.simbolo);
+  final String simbolo;
+}
+
+/// Valor de referência da literatura (Graham, Bazin, Buffett...) ou da
+/// prática de mercado. É régua, não regra: setores diferentes têm faixas
+/// diferentes.
+class Referencia {
+  const Referencia(this.comparacao, this.limite, this.fonte,
+      {this.rotuloLimite});
+
+  final Comparacao comparacao;
+  final double limite;
+
+  /// Quem propôs, ex.: "Graham".
+  final String fonte;
+
+  /// Substitui o número formatado, ex.: "preço atual".
+  final String? rotuloLimite;
+
+  /// null quando não há valor para comparar.
+  bool? atende(double? v) {
+    if (v == null || !v.isFinite) return null;
+    return switch (comparacao) {
+      Comparacao.menor => v < limite,
+      Comparacao.menorIgual => v <= limite,
+      Comparacao.maior => v > limite,
+      Comparacao.maiorIgual => v >= limite,
+    };
+  }
+}
+
 class Indicador {
   const Indicador(
     this.nome,
@@ -13,7 +51,17 @@ class Indicador {
     this.ajuda, {
     this.melhor,
     this.soPositivos = false,
+    this.referencia,
   });
+
+  final Referencia? referencia;
+
+  /// Prejuízo deixa P/L negativo, "abaixo de 15", mas não é bom sinal.
+  bool? get atendeReferencia {
+    final r = referencia?.atende(valor);
+    if (r == true && soPositivos && valor! <= 0) return false;
+    return r;
+  }
 
   final String nome;
   final double? valor;
@@ -32,9 +80,25 @@ class GrupoIndicadores {
 }
 
 class PontoHistorico {
-  const PontoHistorico(this.data, this.fechamento);
+  const PontoHistorico(
+    this.data,
+    this.fechamento, {
+    double? abertura,
+    double? maxima,
+    double? minima,
+    this.volume,
+  })  : abertura = abertura ?? fechamento,
+        maxima = maxima ?? fechamento,
+        minima = minima ?? fechamento;
+
   final DateTime data;
   final double fechamento;
+
+  /// Sem o dado, ficam iguais ao fechamento (candle vira um traço).
+  final double abertura;
+  final double maxima;
+  final double minima;
+  final double? volume;
 }
 
 class Acao {
@@ -74,7 +138,13 @@ class Acao {
       final c = numero(p['close']) ?? numero(p['adjustedClose']);
       if (d == null || c == null) continue;
       historico.add(PontoHistorico(
-          DateTime.fromMillisecondsSinceEpoch(d.toInt() * 1000), c));
+        DateTime.fromMillisecondsSinceEpoch(d.toInt() * 1000),
+        c,
+        abertura: _positivo(p['open']),
+        maxima: _positivo(p['high']),
+        minima: _positivo(p['low']),
+        volume: numero(p['volume']),
+      ));
     }
     historico.sort((a, b) => a.data.compareTo(b.data));
 
@@ -91,6 +161,12 @@ class Acao {
       fundamentos: fundamentos,
     );
   }
+}
+
+/// A brapi às vezes manda 0 em abertura/máxima/mínima quando não tem o dado.
+double? _positivo(dynamic v) {
+  final x = numero(v);
+  return (x == null || x <= 0) ? null : x;
 }
 
 /// Aceita número, texto ou o formato {raw: x, fmt: "..."}.
