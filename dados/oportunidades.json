@@ -1,7 +1,7 @@
 {
-  "gerado_em": "2026-10-30T23:23-03:00",
+  "gerado_em": "2026-11-01T22:21-03:00",
   "analisadas": 291,
-  "aprovadas": 70,
+  "aprovadas": 72,
   "criterios": {
     "universo_por_liquidez": 300,
     "valor_mercado_min": 500000000.0,
@@ -14,31 +14,14 @@
   },
   "reprovacoes": {
     "valor de mercado pequeno": 94,
-    "ROE abaixo do mínimo": 51,
-    "lucro zero ou negativo": 39,
+    "ROE abaixo do mínimo": 50,
+    "lucro zero ou negativo": 38,
     "preço acima do preço justo (Graham e Bazin)": 20,
     "dívida alta": 13,
     "P/L acima do máximo": 2,
     "balanço desatualizado": 2
   },
   "oportunidades": [
-    {
-      "ticker": "VULC3",
-      "nome": "VULCABRAS S.A.",
-      "setor": "Calçados",
-      "preco": 11.53,
-      "preco_justo_graham": 23.71,
-      "potencial_graham": 105.67,
-      "preco_justo_bazin": 41.13,
-      "potencial_bazin": 256.76,
-      "pl": 3.9,
-      "pvp": 1.37,
-      "roe": 35.06,
-      "margem_liquida": 24.89,
-      "div_liq_ebitda": 0.72,
-      "dy": 21.41,
-      "nota": 88.69
-    },
     {
       "ticker": "JHSF3",
       "nome": "JHSF PARTICIPACOES S.A.",
@@ -54,7 +37,41 @@
       "margem_liquida": 52.59,
       "div_liq_ebitda": 0.75,
       "dy": 6.73,
-      "nota": 88.62
+      "nota": 87.89
+    },
+    {
+      "ticker": "VULC3",
+      "nome": "VULCABRAS S.A.",
+      "setor": "Calçados",
+      "preco": 11.53,
+      "preco_justo_graham": 23.71,
+      "potencial_graham": 105.67,
+      "preco_justo_bazin": 41.13,
+      "potencial_bazin": 256.76,
+      "pl": 3.9,
+      "pvp": 1.37,
+      "roe": 35.06,
+      "margem_liquida": 24.89,
+      "div_liq_ebitda": 0.72,
+      "dy": 21.41,
+      "nota": 87.62
+    },
+    {
+      "ticker": "TEND3",
+      "nome": "CONSTRUTORA TENDA S.A.",
+      "setor": "Incorporações",
+      "preco": 20.01,
+      "preco_justo_graham": 77.96,
+      "potencial_graham": 289.58,
+      "preco_justo_bazin": 49.59,
+      "potencial_bazin": 147.83,
+      "pl": 1.99,
+      "pvp": 0.75,
+      "roe": 37.61,
+      "margem_liquida": 12.08,
+      "div_liq_ebitda": 0.39,
+      "dy": 14.87,
+      "nota": 84.26
     },
     {
       "ticker": "DIRR3",
@@ -71,7 +88,24 @@
       "margem_liquida": 17.73,
       "div_liq_ebitda": 0.47,
       "dy": 27.36,
-      "nota": 82.95
+      "nota": 83.12
+    },
+    {
+      "ticker": "LAVV3",
+      "nome": "LAVVI EMPREENDIMENTOS IMOBILIÁRIOS S.A.",
+      "setor": "Incorporações",
+      "preco": 7.49,
+      "preco_justo_graham": 17.71,
+      "potencial_graham": 136.49,
+      "preco_justo_bazin": 35.28,
+      "potencial_bazin": 371.04,
+      "pl": 4.02,
+      "pvp": 1.0,
+      "roe": 24.9,
+      "margem_liquida": 19.91,
+      "div_liq_ebitda": 1.17,
+      "dy": 28.26,
+      "nota": 81.01
     },
     {
       "ticker": "POMO4",
@@ -88,7 +122,7 @@
       "margem_liquida": 13.19,
       "div_liq_ebitda": 1.22,
       "dy": 25.23,
-      "nota": 81.27
+      "nota": 80.8
     },
     {
       "ticker": "MDNE3",
@@ -105,24 +139,7 @@
       "margem_liquida": 21.43,
       "div_liq_ebitda": 0.36,
       "dy": 9.11,
-      "nota": 81.07
-    },
-    {
-      "ticker": "LAVV3",
-      "nome": "LAVVI EMPREENDIMENTOS IMOBILIÁRIOS S.A.",
-      "setor": "Incorporações",
-      "preco": 7.49,
-      "preco_justo_graham": 17.43,
-      "potencial_graham": 132.77,
-      "preco_justo_bazin": 34.72,
-      "potencial_bazin": 363.62,
-      "pl": 4.08,
-      "pvp": 1.02,
-      "roe": 24.9,
-      "margem_liquida": 19.91,
-      "div_liq_ebitda": 1.17,
-      "dy": 27.82,
-      "nota": 80.78
+      "nota": 80.58
     },
     {
       "ticker": "WIZC3",
@@ -139,7 +156,7 @@
       "margem_liquida": 15.57,
       "div_liq_ebitda": -0.03,
       "dy": 25.63,
-      "nota": 77.44
+      "nota": 77.77
     },
     {
       "ticker": "PINE4",
@@ -156,7 +173,7 @@
       "margem_liquida": null,
       "div_liq_ebitda": null,
       "dy": null,
-      "nota": 75.36
+      "nota": 74.74
     },
     {
       "ticker": "PLPL3",
@@ -173,41 +190,7 @@
       "margem_liquida": 8.62,
       "div_liq_ebitda": 0.34,
       "dy": 0.0,
-      "nota": 72.42
-    },
-    {
-      "ticker": "TEND3",
-      "nome": "CONSTRUTORA TENDA S.A.",
-      "setor": "Incorporações",
-      "preco": 20.01,
-      "preco_justo_graham": 38.48,
-      "potencial_graham": 92.32,
-      "preco_justo_bazin": 24.48,
-      "potencial_bazin": 22.34,
-      "pl": 4.02,
-      "pvp": 1.51,
-      "roe": 37.61,
-      "margem_liquida": 12.08,
-      "div_liq_ebitda": 0.39,
-      "dy": 7.34,
-      "nota": 71.77
-    },
-    {
-      "ticker": "CYRE3",
-      "nome": "CYRELA BRAZIL REALTY S.A.EMPREEND E PART",
-      "setor": "Incorporações",
-      "preco": 17.09,
-      "preco_justo_graham": 51.95,
-      "potencial_graham": 204.0,
-      "preco_justo_bazin": 53.23,
-      "potencial_bazin": 211.45,
-      "pl": 3.65,
-      "pvp": 0.67,
-      "roe": 18.26,
-      "margem_liquida": 20.67,
-      "div_liq_ebitda": 1.91,
-      "dy": 18.69,
-      "nota": 71.29
+      "nota": 71.88
     },
     {
       "ticker": "VIVA3",
@@ -224,7 +207,24 @@
       "margem_liquida": 25.4,
       "div_liq_ebitda": 0.11,
       "dy": 8.81,
-      "nota": 70.5
+      "nota": 70.64
+    },
+    {
+      "ticker": "CYRE3",
+      "nome": "CYRELA BRAZIL REALTY S.A.EMPREEND E PART",
+      "setor": "Incorporações",
+      "preco": 17.09,
+      "preco_justo_graham": 51.95,
+      "potencial_graham": 204.0,
+      "preco_justo_bazin": 53.23,
+      "potencial_bazin": 211.45,
+      "pl": 3.65,
+      "pvp": 0.67,
+      "roe": 18.26,
+      "margem_liquida": 20.67,
+      "div_liq_ebitda": 1.91,
+      "dy": 18.69,
+      "nota": 70.3
     },
     {
       "ticker": "CURY3",
@@ -241,24 +241,24 @@
       "margem_liquida": 17.89,
       "div_liq_ebitda": -0.19,
       "dy": 16.21,
-      "nota": 70.05
+      "nota": 69.88
     },
     {
       "ticker": "BMGB4",
       "nome": "BANCO BMG S.A.",
       "setor": "Bancos",
       "preco": 5.11,
-      "preco_justo_graham": 35.97,
-      "potencial_graham": 603.82,
-      "preco_justo_bazin": 23.31,
-      "potencial_bazin": 356.15,
-      "pl": 1.91,
+      "preco_justo_graham": 36.32,
+      "potencial_graham": 610.7,
+      "preco_justo_bazin": 23.54,
+      "potencial_bazin": 360.61,
+      "pl": 1.89,
       "pvp": 0.24,
       "roe": 12.48,
       "margem_liquida": null,
       "div_liq_ebitda": null,
-      "dy": 27.37,
-      "nota": 69.02
+      "dy": 27.64,
+      "nota": 69.37
     },
     {
       "ticker": "PETR4",
@@ -275,7 +275,7 @@
       "margem_liquida": 24.32,
       "div_liq_ebitda": 1.14,
       "dy": 5.64,
-      "nota": 68.54
+      "nota": 68.74
     }
   ]
 }
