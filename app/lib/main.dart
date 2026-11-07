@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'screens/carteira_screen.dart';
 import 'screens/comparador_screen.dart';
 import 'screens/oportunidades_screen.dart';
 import 'screens/watchlist_screen.dart';
 import 'services/brapi_service.dart';
+import 'services/carteira_storage.dart';
 import 'services/oportunidades_service.dart';
 import 'services/watchlist_storage.dart';
 
@@ -43,6 +45,7 @@ class _InicioState extends State<Inicio> {
   final _api = BrapiService();
   final _storage = WatchlistStorage();
   final _oportunidades = OportunidadesService();
+  final _carteira = CarteiraStorage();
   int _aba = 0;
 
   @override
@@ -51,7 +54,9 @@ class _InicioState extends State<Inicio> {
       body: switch (_aba) {
         0 => OportunidadesScreen(
             api: _api, storage: _storage, servico: _oportunidades),
-        1 => WatchlistScreen(api: _api, storage: _storage),
+        1 => CarteiraScreen(
+            api: _api, storage: _carteira, servico: _oportunidades),
+        2 => WatchlistScreen(api: _api, storage: _storage),
         _ => ComparadorScreen(api: _api, storage: _storage),
       },
       bottomNavigationBar: NavigationBar(
@@ -59,6 +64,10 @@ class _InicioState extends State<Inicio> {
         onDestinationSelected: (i) => setState(() => _aba = i),
         destinations: const [
           NavigationDestination(icon: Icon(Icons.star_outline), label: 'Oportunidades'),
+          NavigationDestination(
+              icon: Icon(Icons.account_balance_wallet_outlined),
+              selectedIcon: Icon(Icons.account_balance_wallet),
+              label: 'Carteira'),
           NavigationDestination(icon: Icon(Icons.list_alt), label: 'Minha lista'),
           NavigationDestination(icon: Icon(Icons.compare_arrows), label: 'Comparar'),
         ],

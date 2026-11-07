@@ -7,7 +7,7 @@ import '../config.dart';
 import '../models/oportunidade.dart';
 import 'brapi_service.dart' show BrapiException;
 
-/// Lê o ranking que o robô do GitHub publica toda semana.
+/// Lê o ranking que o robô do GitHub publica todo dia útil.
 class OportunidadesService {
   OportunidadesService({http.Client? client}) : _client = client ?? http.Client();
   final http.Client _client;
@@ -28,7 +28,7 @@ class OportunidadesService {
     }
     if (r.statusCode == 404) {
       throw BrapiException(
-          'Ranking ainda não gerado. Rode o workflow “Screener semanal” no GitHub.');
+          'Ranking ainda não gerado. Rode o workflow “Screener diário” no GitHub.');
     }
     if (r.statusCode != 200) {
       throw BrapiException('Erro ${r.statusCode} ao baixar o ranking.');
