@@ -23,6 +23,10 @@ URL = "https://generativelanguage.googleapis.com/v1beta/models/{}:generateConten
 DIAS_FATOS = 120
 MAX_FATOS = 10
 CATEGORIAS_FATOS = {"Fato Relevante", "Comunicado ao Mercado"}
+TIMEOUT = 60  # segundos por chamada
+# Tempo total para as leituras: o que não couber fica com a leitura anterior,
+# e o ranking é publicado de qualquer jeito.
+PRAZO = float(os.getenv("IA_PRAZO_MIN", "10")) * 60
 
 INSTRUCOES = """Você é um analista de ações da B3 escrevendo para um investidor pessoa física.
 Recebe os indicadores já calculados de uma empresa e a lista de fatos relevantes recentes.
@@ -113,7 +117,7 @@ def _pergunta(m, fatos, criterios):
     return "\n".join(linhas)
 
 
-def _gemini(texto, tentativas=3):
+def _gemini(texto, tentativas=2):
     corpo = {
         "systemInstruction": {"parts": [{"text": INSTRUCOES}]},
         "contents": [{"role": "user", "parts": [{"text": texto}]}],
@@ -122,7 +126,8 @@ def _gemini(texto, tentativas=3):
     erro = "falha desconhecida"
     for t in range(tentativas):
         try:
-            r = requests.post(URL.format(MODELO), json=corpo, headers={"x-goog-api-key": CHAVE}, timeout=120)
+            r = requests.post(URL.format(MODELO), json=corpo, headers={"x-goog-api-key": CHAVE},
+                              timeout=TIMEOUT)
         except requests.RequestException as e:
             erro = str(e)
         else:
@@ -133,25 +138,42 @@ def _gemini(texto, tentativas=3):
             erro = f"HTTP {r.status_code}: {r.text[:300]}"
             if r.status_code in (400, 401, 403, 404):
                 break
-        time.sleep(5 * 2 ** t)
+        if t + 1 < tentativas:
+            time.sleep(5 * 2 ** t)
     raise RuntimeError(erro)
 
 
 def gerar(acoes, cnpj_de, criterios, anterior=None):
     """Leitura de cada ação de `acoes` (dicts do screener). Devolve o conteúdo de analises.json."""
     anterior = (anterior or {}).get("acoes", {})
-    fatos = fatos_recentes({cnpj_de[m["ticker"]] for m in acoes})
+    inicio = time.monotonic()
+    print(f"IA: {len(acoes)} ações com {MODELO}", flush=True)
+    try:
+        fatos = fatos_recentes({cnpj_de[m["ticker"]] for m in acoes if m["ticker"] in cnpj_de})
+    except Exception as e:  # sem os fatos, a leitura sai só com os indicadores
+        print(f"  fatos da CVM indisponíveis: {e}", flush=True)
+        fatos = {}
+    print(f"  fatos da CVM em {time.monotonic() - inicio:.0f}s", flush=True)
     saida = {}
-    for m in acoes:
+    for i, m in enumerate(acoes, 1):
         tk = m["ticker"]
-        f = fatos.get(cnpj_de[tk], [])
+        if time.monotonic() - inicio > PRAZO:
+            print(f"  prazo de {PRAZO / 60:.0f} min esgotado: {tk} e as seguintes ficam com a leitura anterior",
+                  flush=True)
+            for resto in acoes[i - 1:]:
+                if resto["ticker"] in anterior:
+                    saida[resto["ticker"]] = anterior[resto["ticker"]]
+            break
+        f = fatos.get(cnpj_de.get(tk), [])
+        t0 = time.monotonic()
         try:
             leitura = _gemini(_pergunta(m, f, criterios))
         except Exception as e:  # uma ação com problema não derruba as outras
-            print(f"  IA falhou em {tk}: {e}")
+            print(f"  [{i}/{len(acoes)}] {tk}: IA falhou em {time.monotonic() - t0:.0f}s: {e}", flush=True)
             if tk in anterior:
                 saida[tk] = anterior[tk]
             continue
+        print(f"  [{i}/{len(acoes)}] {tk}: ok em {time.monotonic() - t0:.0f}s", flush=True)
         saida[tk] = {
             "resumo": (leitura.get("resumo") or "").strip(),
             "pontos_fortes": [s.strip() for s in leitura.get("pontos_fortes") or [] if s.strip()][:3],

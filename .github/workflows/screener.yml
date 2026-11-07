@@ -11,7 +11,7 @@ permissions:
 jobs:
   rodar:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
 
@@ -24,6 +24,7 @@ jobs:
       - name: Rodar screener
         run: python screener/screener.py
         env:
+          PYTHONUNBUFFERED: "1"  # mostra o progresso no log na hora
           BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}  # opcional: a lista de ações funciona sem token
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}  # opcional: sem ela, não gera dados/analises.json
 

@@ -350,9 +350,14 @@ def main():
     if analise_ia.CHAVE:
         arquivo = DADOS / "analises.json"
         anterior = json.loads(arquivo.read_text(encoding="utf-8")) if arquivo.exists() else None
-        analises = analise_ia.gerar(aprovadas[:CRITERIOS["top"]], cnpj_de, CRITERIOS, anterior)
-        gravar("analises.json", {"gerado_em": agora, **analises}, indent=2)
-        print(f"Leituras da IA ({analise_ia.MODELO}): {len(analises['acoes'])}")
+        try:
+            analises = analise_ia.gerar(aprovadas[:CRITERIOS["top"]], cnpj_de, CRITERIOS, anterior)
+        except Exception as e:  # a IA é opcional: o ranking sai de qualquer jeito
+            print(f"Leituras da IA não geradas: {e}")
+        else:
+            if analises["acoes"]:
+                gravar("analises.json", {"gerado_em": agora, **analises}, indent=2)
+            print(f"Leituras da IA ({analise_ia.MODELO}): {len(analises['acoes'])}")
     else:
         print("Sem GEMINI_API_KEY: leituras da IA não geradas.")
 
