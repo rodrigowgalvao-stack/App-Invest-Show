@@ -95,7 +95,7 @@ class BrapiService {
     final acao = Acao.fromJson(Map<String, dynamic>.from(results.first as Map),
         fundamentos: await fundamentos);
     _cache[chave] = _ItemCache(acao, DateTime.now());
-    precos.registrar(t, acao.preco);
+    precos.registrar(t, acao.preco, variacaoPct: acao.variacaoPct);
     return acao;
   }
 
@@ -151,10 +151,17 @@ class BrapiService {
       final body = jsonDecode(utf8.decode(r.bodyBytes));
       final lista = body is Map ? body['stocks'] : null;
       if (lista is! List) return;
-      precos.registrarLista({
+      final validos = [
         for (final x in lista)
-          if (x is Map && x['stock'] is String && numero(x['close']) != null)
-            (x['stock'] as String).toUpperCase(): numero(x['close'])!,
+          if (x is Map && x['stock'] is String && numero(x['close']) != null) x,
+      ];
+      precos.registrarLista({
+        for (final x in validos)
+          (x['stock'] as String).toUpperCase(): numero(x['close'])!,
+      }, variacoes: {
+        for (final x in validos)
+          if (numero(x['change']) != null)
+            (x['stock'] as String).toUpperCase(): numero(x['change'])!,
       });
     } catch (_) {}
   }

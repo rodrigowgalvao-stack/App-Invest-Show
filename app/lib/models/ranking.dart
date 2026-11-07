@@ -221,3 +221,85 @@ RelatorioOportunidades recalcularRanking(
     itens: [for (final m in aprovadas.take(top)) m.paraOportunidade()],
   );
 }
+
+/// Critérios padrão do robô, para quando o ranking não pôde ser baixado.
+const criteriosPadrao = <String, dynamic>{
+  'valor_mercado_min': 500000000.0,
+  'roe_min': 10.0,
+  'margem_liquida_min': 0.0,
+  'div_liq_ebitda_max': 3.0,
+  'pl_max': 30.0,
+  'taxa_bazin': 6.0,
+};
+
+enum Sinal { compra, manter, venda, atencao, semAnalise }
+
+/// Leitura de um ativo da carteira pelos mesmos filtros do ranking.
+class Avaliacao {
+  const Avaliacao(this.sinal, this.motivo,
+      {this.precoJustoGraham, this.precoTetoBazin});
+
+  final Sinal sinal;
+  final String motivo;
+  final double? precoJustoGraham;
+  final double? precoTetoBazin;
+}
+
+const _motivosFundamentos = {
+  'lucro zero ou negativo',
+  'patrimônio zero ou negativo',
+  'ROE abaixo do mínimo',
+  'margem líquida baixa',
+  'dívida alta',
+  'balanço desatualizado',
+};
+
+/// - compra: passa em todos os filtros (inclusive preço abaixo do justo);
+/// - venda: fundamentos bons, mas o preço passou dos preços justos de
+///   Graham e Bazin, ou o P/L passou do máximo;
+/// - atenção: algum fundamento piorou (prejuízo, dívida, ROE...);
+/// - manter: o resto (ex.: empresa pequena demais para o ranking).
+Avaliacao avaliarAtivo(
+  Fundamentos? f,
+  double? preco, {
+  Map<String, dynamic> criterios = criteriosPadrao,
+  DateTime? hoje,
+}) {
+  if (f == null) {
+    return const Avaliacao(Sinal.semAnalise,
+        'Sem balanço na CVM (FII, ETF ou BDR): acompanhe só o preço.');
+  }
+  if (preco == null || preco <= 0) {
+    return const Avaliacao(Sinal.semAnalise, 'Sem cotação no momento.');
+  }
+  final m = _Metricas(
+    ticker: '',
+    nome: '',
+    setor: null,
+    f: f,
+    preco: preco,
+    taxaBazin: numero(criterios['taxa_bazin']) ?? 6,
+  );
+  final motivo = _reprovar(m, criterios, hoje ?? DateTime.now());
+  final (Sinal, String) r = switch (motivo) {
+    null => (
+        Sinal.compra,
+        'Passa em todos os filtros do ranking e está abaixo do preço justo.'
+      ),
+    'preço acima do preço justo (Graham e Bazin)' => (
+        Sinal.venda,
+        'Preço acima do preço justo de Graham e do preço teto de Bazin.'
+      ),
+    'P/L acima do máximo' => (
+        Sinal.venda,
+        'P/L acima do máximo do ranking: o preço subiu mais que o lucro.'
+      ),
+    final x when _motivosFundamentos.contains(x) => (
+        Sinal.atencao,
+        'Fundamentos fora dos filtros: $x.'
+      ),
+    final x => (Sinal.manter, 'Fora do ranking por $x, mas sem sinal de preço.'),
+  };
+  return Avaliacao(r.$1, r.$2,
+      precoJustoGraham: m.graham, precoTetoBazin: m.bazin);
+}

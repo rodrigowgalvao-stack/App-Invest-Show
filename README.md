@@ -1,7 +1,7 @@
 # Ações: app + robô de oportunidades
 
 ```
-app/                        app Flutter (Oportunidades, Minha lista, Comparar)
+app/                        app Flutter (Oportunidades, Carteira, Minha lista, Comparar)
 screener/screener.py        robô que varre a B3, calcula os indicadores e monta o ranking
 screener/cvm.py             leitura dos balanços oficiais (dados abertos da CVM)
 .github/workflows/          agenda o robô todo dia útil
