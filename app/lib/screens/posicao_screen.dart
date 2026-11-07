@@ -63,13 +63,34 @@ class _PosicaoScreenState extends State<PosicaoScreen> {
       api: widget.api, storage: widget.storage, ticker: widget.ticker, tipo: tipo);
 
   Future<void> _apagar(Operacao o) async {
+    final saldo = await widget.storage.saldo();
+    if (!mounted) return;
+    var ajustar = false;
+    final efeito = -o.efeitoNoSaldo;
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Apagar operação?'),
-        content: Text(
-            '${o.tipo == TipoOperacao.compra ? 'Compra' : 'Venda'} de ${o.quantidade} '
-            '${o.ticker} em ${fmtData(o.data)}.'),
+        content: StatefulBuilder(
+          builder: (ctx, setDialog) => Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${o.tipo == TipoOperacao.compra ? 'Compra' : 'Venda'} de '
+                  '${o.quantidade} ${o.ticker} em ${fmtData(o.data)}.'),
+              if (saldo != null)
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: ajustar,
+                  onChanged: (v) => setDialog(() => ajustar = v ?? false),
+                  title: Text(efeito >= 0
+                      ? 'Devolver ${fmtMoeda(efeito)} ao saldo em conta'
+                      : 'Tirar ${fmtMoeda(-efeito)} do saldo em conta'),
+                ),
+            ],
+          ),
+        ),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx, false),
@@ -82,7 +103,7 @@ class _PosicaoScreenState extends State<PosicaoScreen> {
     );
     if (ok != true) return;
     try {
-      await widget.storage.remover(o.id);
+      await widget.storage.remover(o.id, ajustarSaldo: ajustar);
     } on ErroCarteira catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -1,4 +1,4 @@
-# Ações: app + robô de oportunidades
+# Invest Show: app + robô de oportunidades
 
 ```
 app/                        app Flutter (Oportunidades, Carteira, Minha lista, Comparar)

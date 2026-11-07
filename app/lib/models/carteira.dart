@@ -26,6 +26,12 @@ class Operacao {
 
   double get valorBruto => quantidade * preco;
 
+  /// Quanto a operação mexe no saldo em conta: a compra tira o total pago
+  /// (com taxas) e a venda põe o total recebido (sem as taxas).
+  double get efeitoNoSaldo => tipo == TipoOperacao.compra
+      ? -(valorBruto + taxas)
+      : valorBruto - taxas;
+
   factory Operacao.fromJson(Map<String, dynamic> j) => Operacao(
         id: '${j['id']}',
         ticker: '${j['ticker']}'.toUpperCase(),

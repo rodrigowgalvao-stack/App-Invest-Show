@@ -47,6 +47,7 @@ class _CarteiraScreenState extends State<CarteiraScreen> {
   List<Operacao> _ops = [];
   Map<String, Fundamentos> _fund = const {};
   Map<String, dynamic> _criterios = criteriosPadrao;
+  double? _saldo;
   bool _carregando = true;
   Timer? _relogio;
 
@@ -74,8 +75,12 @@ class _CarteiraScreenState extends State<CarteiraScreen> {
 
   Future<void> _mudouOperacoes() async {
     final ops = await widget.storage.carregar();
+    final saldo = await widget.storage.saldo();
     if (!mounted) return;
-    setState(() => _ops = ops);
+    setState(() {
+      _ops = ops;
+      _saldo = saldo;
+    });
     _precosQueFaltam();
   }
 
@@ -91,6 +96,7 @@ class _CarteiraScreenState extends State<CarteiraScreen> {
     _ops = await ops;
     _fund = await fund;
     _criterios = await criterios;
+    _saldo = await widget.storage.saldo();
     if (mounted) setState(() => _carregando = false);
     await _precosQueFaltam(forcar: forcar);
   }
@@ -111,6 +117,9 @@ class _CarteiraScreenState extends State<CarteiraScreen> {
 
   Future<void> _novaOperacao() =>
       abrirOperacao(context, api: widget.api, storage: widget.storage);
+
+  Future<void> _editarSaldo() =>
+      editarSaldo(context, storage: widget.storage, atual: _saldo);
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +158,11 @@ class _CarteiraScreenState extends State<CarteiraScreen> {
                       children: [
                         if (_carregando) const LinearProgressIndicator(),
                         _Resumo(resumo: resumo, abertas: abertas, api: widget.api),
+                        _SaldoConta(
+                          saldo: _saldo,
+                          patrimonio: resumo.patrimonio,
+                          onEditar: _editarSaldo,
+                        ),
                         if (abertas.isNotEmpty) ...[
                           const SizedBox(height: 12),
                           _Alocacao(abertas: abertas, precos: precos),
@@ -236,6 +250,8 @@ class _CarteiraScreenState extends State<CarteiraScreen> {
               label: const Text('Registrar primeira compra'),
             ),
           ),
+          const SizedBox(height: 24),
+          _SaldoConta(saldo: _saldo, patrimonio: 0, onEditar: _editarSaldo),
         ],
       );
 }
@@ -317,6 +333,197 @@ class _Resumo extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Dinheiro na corretora ainda não aplicado.
+class _SaldoConta extends StatelessWidget {
+  const _SaldoConta({
+    required this.saldo,
+    required this.patrimonio,
+    required this.onEditar,
+  });
+
+  final double? saldo;
+  final double patrimonio;
+  final VoidCallback onEditar;
+
+  @override
+  Widget build(BuildContext context) {
+    final tema = Theme.of(context);
+    final cs = tema.colorScheme;
+    final cinza =
+        tema.textTheme.labelMedium?.copyWith(color: cs.onSurfaceVariant);
+    final s = saldo;
+    return Card(
+      margin: const EdgeInsets.only(top: 12),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onEditar,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+          child: Row(
+            children: [
+              Icon(Icons.account_balance_outlined, color: cs.primary),
+              const SizedBox(width: 12),
+              Expanded(
+                child: s == null
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Saldo em conta', style: tema.textTheme.titleSmall),
+                          Text('Informe quanto tem na corretora para '
+                              'acompanhar o que pode aplicar.',
+                              style: cinza),
+                        ],
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Saldo em conta · disponível para aplicar',
+                              style: cinza),
+                          Text(fmtMoeda(s),
+                              style: tema.textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: s < 0 ? cs.error : null)),
+                          if (patrimonio > 0)
+                            Text('Total com a carteira: ${fmtMoeda(patrimonio + s)}',
+                                style: cinza),
+                        ],
+                      ),
+              ),
+              IconButton(
+                tooltip: s == null ? 'Informar saldo' : 'Ajustar saldo',
+                icon: Icon(s == null ? Icons.add : Icons.edit_outlined),
+                onPressed: onEditar,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+enum _MovSaldo { deposito, retirada, definir }
+
+/// Depósito, retirada ou correção do saldo em conta.
+Future<void> editarSaldo(BuildContext context,
+        {required CarteiraStorage storage, double? atual}) =>
+    showDialog<void>(
+      context: context,
+      builder: (_) => _DialogoSaldo(storage: storage, atual: atual),
+    );
+
+class _DialogoSaldo extends StatefulWidget {
+  const _DialogoSaldo({required this.storage, required this.atual});
+  final CarteiraStorage storage;
+  final double? atual;
+
+  @override
+  State<_DialogoSaldo> createState() => _DialogoSaldoState();
+}
+
+class _DialogoSaldoState extends State<_DialogoSaldo> {
+  final _campo = TextEditingController();
+  late _MovSaldo _mov =
+      widget.atual == null ? _MovSaldo.definir : _MovSaldo.deposito;
+  String? _erro;
+
+  @override
+  void dispose() {
+    _campo.dispose();
+    super.dispose();
+  }
+
+  Future<void> _confirmar() async {
+    final v = lerNumero(_campo.text);
+    if (v == null || v < 0 || (v == 0 && _mov != _MovSaldo.definir)) {
+      setState(() => _erro = 'Informe um valor.');
+      return;
+    }
+    switch (_mov) {
+      case _MovSaldo.deposito:
+        await widget.storage.movimentarSaldo(v);
+      case _MovSaldo.retirada:
+        await widget.storage.movimentarSaldo(-v);
+      case _MovSaldo.definir:
+        await widget.storage.definirSaldo(v);
+    }
+    if (mounted) Navigator.pop(context);
+  }
+
+  Future<void> _naoUsar() async {
+    await widget.storage.limparSaldo();
+    if (mounted) Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final atual = widget.atual;
+    return AlertDialog(
+      title: const Text('Saldo em conta'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (atual != null) ...[
+              Text('Agora: ${fmtMoeda(atual)}'),
+              const SizedBox(height: 12),
+              SegmentedButton<_MovSaldo>(
+                showSelectedIcon: false,
+                segments: const [
+                  ButtonSegment(value: _MovSaldo.deposito, label: Text('Depósito')),
+                  ButtonSegment(value: _MovSaldo.retirada, label: Text('Retirada')),
+                  ButtonSegment(value: _MovSaldo.definir, label: Text('Corrigir')),
+                ],
+                selected: {_mov},
+                onSelectionChanged: (s) => setState(() {
+                  _mov = s.first;
+                  _erro = null;
+                  if (_mov == _MovSaldo.definir) {
+                    _campo.text = escreverValor(atual);
+                  } else {
+                    _campo.clear();
+                  }
+                }),
+              ),
+              const SizedBox(height: 16),
+            ],
+            TextField(
+              controller: _campo,
+              autofocus: true,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(
+                labelText: switch (_mov) {
+                  _MovSaldo.deposito => 'Valor depositado',
+                  _MovSaldo.retirada => 'Valor retirado',
+                  _MovSaldo.definir => 'Saldo na corretora hoje',
+                },
+                prefixText: 'R\$ ',
+                errorText: _erro,
+                border: const OutlineInputBorder(),
+              ),
+              onSubmitted: (_) => _confirmar(),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Compras e vendas registradas atualizam o saldo sozinhas.',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        if (atual != null)
+          TextButton(onPressed: _naoUsar, child: const Text('Não usar')),
+        TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancelar')),
+        FilledButton(onPressed: _confirmar, child: const Text('Salvar')),
+      ],
     );
   }
 }

@@ -21,7 +21,7 @@ class AcoesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Análise de Ações',
+      title: 'Invest Show',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: _corBase),
       darkTheme: ThemeData(

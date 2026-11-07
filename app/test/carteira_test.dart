@@ -121,6 +121,54 @@ void main() {
     });
   });
 
+  group('saldo em conta', () {
+    test('efeito de compra e venda no saldo', () {
+      expect(op('PETR4', c, '2026-01-10', 100, 30, taxas: 10).efeitoNoSaldo, -3010);
+      expect(op('PETR4', v, '2026-01-10', 50, 40, taxas: 5).efeitoNoSaldo, 1995);
+    });
+
+    test('compra, edição e exclusão ajustam o saldo', () async {
+      SharedPreferences.setMockInitialValues({});
+      final s = CarteiraStorage();
+      expect(await s.saldo(), isNull);
+
+      // Sem saldo informado, nada muda.
+      await s.salvar(op('PETR4', c, '2026-01-10', 10, 30, id: 'a'),
+          ajustarSaldo: true);
+      expect(await s.saldo(), isNull);
+
+      await s.definirSaldo(1000);
+      await s.salvar(op('VALE3', c, '2026-01-10', 10, 50, taxas: 2, id: 'b'),
+          ajustarSaldo: true);
+      expect(await s.saldo(), closeTo(498, 1e-9));
+
+      // Edição: só a diferença (10 → 12 ações a 50).
+      await s.salvar(op('VALE3', c, '2026-01-10', 12, 50, taxas: 2, id: 'b'),
+          ajustarSaldo: true);
+      expect(await s.saldo(), closeTo(398, 1e-9));
+
+      await s.salvar(op('VALE3', v, '2026-02-10', 12, 60, taxas: 3, id: 'cc'),
+          ajustarSaldo: true);
+      expect(await s.saldo(), closeTo(1115, 1e-9));
+
+      // Sem pedir ajuste, não mexe.
+      await s.salvar(op('PETR4', c, '2026-03-10', 1, 30, id: 'd'));
+      expect(await s.saldo(), closeTo(1115, 1e-9));
+
+      await s.remover('cc', ajustarSaldo: true);
+      expect(await s.saldo(), closeTo(398, 1e-9));
+
+      await s.movimentarSaldo(-98);
+      expect(await s.saldo(), closeTo(300, 1e-9));
+
+      // Persiste entre instâncias.
+      expect(await CarteiraStorage().saldo(), closeTo(300, 1e-9));
+
+      await s.limparSaldo();
+      expect(await CarteiraStorage().saldo(), isNull);
+    });
+  });
+
   testWidgets('tela da carteira com preços da brapi', (t) async {
     SharedPreferences.setMockInitialValues({
       'carteira_operacoes': jsonEncode([
@@ -154,5 +202,43 @@ void main() {
     expect(find.textContaining('600,00 (+20,00%)'), findsWidgets);
     expect(find.text('Posições encerradas (1)'), findsOneWidget);
     expect(find.text('Sem análise'), findsOneWidget); // sem fundamentos
+    expect(find.text('Saldo em conta'), findsOneWidget); // ainda não informado
+  });
+
+  testWidgets('saldo em conta na carteira', (t) async {
+    SharedPreferences.setMockInitialValues({
+      'carteira_operacoes': jsonEncode([op('PETR4', c, '2026-01-10', 100, 30).toJson()]),
+      'carteira_saldo': 1250.5,
+    });
+    final cliente = MockClient((r) async => r.url.path.endsWith('/quote/list')
+        ? http.Response(
+            jsonEncode({
+              'stocks': [
+                {'stock': 'PETR4', 'close': 36.0, 'change': 1.5},
+              ]
+            }),
+            200)
+        : http.Response('{}', 404));
+    final storage = CarteiraStorage();
+    await t.pumpWidget(MaterialApp(
+      home: CarteiraScreen(
+        api: BrapiService(client: cliente),
+        storage: storage,
+        servico: OportunidadesService(client: cliente),
+      ),
+    ));
+    await t.pumpAndSettle();
+    expect(find.textContaining('1.250,50'), findsOneWidget);
+    expect(find.textContaining(RegExp(r'Total com a carteira: R\$.4\.850,50')), findsOneWidget);
+
+    // Depósito pelo diálogo.
+    await t.tap(find.byTooltip('Ajustar saldo'));
+    await t.pumpAndSettle();
+    await t.enterText(find.byType(TextField), '100');
+    await t.tap(find.text('Salvar'));
+    await t.pumpAndSettle();
+    expect(t.takeException(), isNull);
+    expect(await storage.saldo(), closeTo(1350.5, 1e-9));
+    expect(find.textContaining('1.350,50'), findsOneWidget);
   });
 }

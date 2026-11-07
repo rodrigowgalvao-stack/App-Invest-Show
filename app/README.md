@@ -1,4 +1,4 @@
-# acoes_app
+# Invest Show (app)
 
 A new Flutter project.
 
