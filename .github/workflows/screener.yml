@@ -1,8 +1,8 @@
-name: Screener semanal
+name: Screener diário
 
 on:
   schedule:
-    - cron: "0 22 * * 0"   # domingo, 19h de Brasília
+    - cron: "17 21 * * 1-5"   # segunda a sexta, 18h17 de Brasília (depois do fechamento)
   workflow_dispatch:        # botão "Run workflow" para rodar na hora
 
 permissions:

@@ -66,3 +66,9 @@ Widget? seloReferencia(Indicador i, {double tamanho = 16}) {
       color: ok ? Colors.green.shade600 : Colors.orange.shade700,
       semanticLabel: ok ? 'Dentro da referência' : 'Fora da referência');
 }
+
+/// Valor com sinal: +R$ 120,00 / -R$ 35,10.
+String fmtMoedaSinal(double? v) {
+  if (!_valido(v)) return '—';
+  return '${v! > 0 ? '+' : v < 0 ? '-' : ''}${_moeda.format(v.abs())}';
+}
