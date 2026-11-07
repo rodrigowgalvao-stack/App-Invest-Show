@@ -61,6 +61,7 @@ class RelatorioOportunidades {
     required this.aprovadas,
     required this.criterios,
     required this.itens,
+    this.universo = const [],
   });
 
   final DateTime? geradoEm;
@@ -68,6 +69,10 @@ class RelatorioOportunidades {
   final int aprovadas;
   final Map<String, dynamic> criterios;
   final List<Oportunidade> itens;
+
+  /// Todas as ações que o robô analisou (para o app refazer o ranking com
+  /// o preço do dia). Vazio em arquivos gerados antes desta versão.
+  final List<String> universo;
 
   factory RelatorioOportunidades.fromJson(Map<String, dynamic> j) =>
       RelatorioOportunidades(
@@ -80,6 +85,10 @@ class RelatorioOportunidades {
         itens: [
           for (final o in (j['oportunidades'] as List? ?? const []))
             if (o is Map) Oportunidade.fromJson(Map<String, dynamic>.from(o)),
+        ],
+        universo: [
+          for (final t in (j['universo'] as List? ?? const []))
+            if (t is String) t.toUpperCase(),
         ],
       );
 }

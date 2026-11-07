@@ -6,7 +6,9 @@ import 'package:http/http.dart' as http;
 import '../config.dart';
 import '../models/acao.dart';
 import '../models/ativo_busca.dart';
+import '../models/fundamentos.dart';
 import 'fundamentos_service.dart';
+import 'precos_service.dart';
 
 class BrapiException implements Exception {
   BrapiException(this.mensagem);
@@ -28,9 +30,16 @@ class ResultadoCotacao {
 /// Cotação e histórico vêm da brapi (liberados no plano gratuito); os
 /// indicadores vêm do arquivo que o robô gera com os balanços da CVM.
 class BrapiService {
-  BrapiService({http.Client? client, FundamentosService? fundamentos})
-      : _client = client ?? http.Client(),
-        _fundamentos = fundamentos ?? FundamentosService(client: client);
+  BrapiService({
+    http.Client? client,
+    FundamentosService? fundamentos,
+    PrecosService? precos,
+  })  : _client = client ?? http.Client(),
+        _fundamentos = fundamentos ?? FundamentosService(client: client),
+        precos = precos ?? PrecosService();
+
+  /// Último preço de cada ativo, compartilhado entre as telas.
+  final PrecosService precos;
 
   static const _base = 'https://brapi.dev/api';
   static const _validadeCache = Duration(minutes: 5);
@@ -86,6 +95,7 @@ class BrapiService {
     final acao = Acao.fromJson(Map<String, dynamic>.from(results.first as Map),
         fundamentos: await fundamentos);
     _cache[chave] = _ItemCache(acao, DateTime.now());
+    precos.registrar(t, acao.preco);
     return acao;
   }
 
@@ -110,6 +120,44 @@ class BrapiService {
   }) =>
       Future.wait(tickers
           .map((t) => resultado(t, completo: completo, forcar: forcar)));
+
+  /// Indicadores de todas as ações (balanços da CVM), para o ranking.
+  Future<Map<String, Fundamentos>> todosFundamentos() => _fundamentos.todos();
+
+  Future<void>? _baixandoPrecos;
+
+  /// Preço de toda a bolsa numa chamada só (/quote/list, liberado no plano
+  /// gratuito e sem token). Fica 5 minutos em cache. Falha em silêncio: o
+  /// ranking continua com os preços que já tiver.
+  Future<void> atualizarPrecos({bool forcar = false}) {
+    final ultima = precos.ultimaLista;
+    if (!forcar &&
+        ultima != null &&
+        DateTime.now().difference(ultima) < _validadeCache) {
+      return Future.value();
+    }
+    return _baixandoPrecos ??=
+        _baixarPrecos().whenComplete(() => _baixandoPrecos = null);
+  }
+
+  Future<void> _baixarPrecos() async {
+    try {
+      final uri = Uri.parse('$_base/quote/list').replace(
+          queryParameters: {'sortBy': 'volume', 'sortOrder': 'desc'});
+      final r = await _client
+          .get(uri, headers: _headers)
+          .timeout(const Duration(seconds: 20));
+      if (r.statusCode != 200) return;
+      final body = jsonDecode(utf8.decode(r.bodyBytes));
+      final lista = body is Map ? body['stocks'] : null;
+      if (lista is! List) return;
+      precos.registrarLista({
+        for (final x in lista)
+          if (x is Map && x['stock'] is String && numero(x['close']) != null)
+            (x['stock'] as String).toUpperCase(): numero(x['close'])!,
+      });
+    } catch (_) {}
+  }
 
   /// Busca por código ou nome. As ações da CVM respondem na hora (o
   /// arquivo já está em memória); a brapi completa com FIIs, ETFs e BDRs.

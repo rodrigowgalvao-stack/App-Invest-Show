@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../config.dart';
 import '../models/fundamentos.dart';
 
-/// Lê os indicadores que o robô do GitHub calcula toda semana a partir
+/// Lê os indicadores que o robô do GitHub calcula todo dia útil a partir
 /// dos balanços da CVM. Baixa o arquivo uma vez e guarda por uma hora.
 class FundamentosService {
   FundamentosService({http.Client? client}) : _client = client ?? http.Client();

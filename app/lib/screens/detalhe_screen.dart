@@ -177,7 +177,7 @@ class _DetalheScreenState extends State<DetalheScreen> {
                 child: Text(
                   'Sem indicadores para este ativo. Eles vêm dos balanços da CVM, '
                   'que FIIs, ETFs e BDRs não publicam. Se for uma ação, o robô '
-                  'semanal pode ainda não ter rodado (veja o README).',
+                  'diário pode ainda não ter rodado (veja o README).',
                   style: TextStyle(color: cs.onSurfaceVariant),
                 ),
               ),

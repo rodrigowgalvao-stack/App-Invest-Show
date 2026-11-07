@@ -4,7 +4,7 @@
 app/                        app Flutter (Oportunidades, Minha lista, Comparar)
 screener/screener.py        robô que varre a B3, calcula os indicadores e monta o ranking
 screener/cvm.py             leitura dos balanços oficiais (dados abertos da CVM)
-.github/workflows/          agenda o robô toda semana
+.github/workflows/          agenda o robô todo dia útil
 dados/fundamentos.json      indicadores de todas as ações (telas Detalhe e Comparar)
 dados/oportunidades.json    ranking (aba Oportunidades)
 ```
@@ -14,9 +14,9 @@ dados/oportunidades.json    ranking (aba Oportunidades)
 Tudo funciona no plano **gratuito** da brapi:
 
 - **brapi**: só cotação, histórico de preços e a lista de ações com volume e valor de mercado.
-- **CVM** (dados.cvm.gov.br): balanço, DRE e fluxo de caixa de todas as companhias abertas, gratuitos e oficiais. O robô baixa uma vez por semana e calcula lucro, patrimônio, EBITDA, dívida e dividendos dos últimos 12 meses.
+- **CVM** (dados.cvm.gov.br): balanço, DRE e fluxo de caixa de todas as companhias abertas, gratuitos e oficiais. O robô baixa todo dia útil e calcula lucro, patrimônio, EBITDA, dívida e dividendos dos últimos 12 meses.
 
-O app junta as duas fontes: os indicadores que dependem do preço (P/L, P/VP, DY, valor de mercado) são recalculados com a cotação do dia.
+O app junta as duas fontes: os indicadores que dependem do preço (P/L, P/VP, DY, valor de mercado, preço justo) são recalculados com a cotação do dia. O ranking da aba Oportunidades também: ao abrir a aba (e a cada 5 minutos com ela aberta) o app baixa o preço de toda a bolsa numa chamada só da brapi e refaz filtros, nota e ordem. Os balanços mudam só a cada trimestre; o que move o ranking no dia a dia é o preço.
 
 ## 1. Subir para o GitHub
 
@@ -24,7 +24,7 @@ O app junta as duas fontes: os indicadores que dependem do preço (P/L, P/VP, DY
    Público porque o app baixa o ranking direto do GitHub sem login. O repositório só tem código e dados de mercado; o token fica protegido no passo 2.
 2. (Opcional) Em **Settings → Secrets and variables → Actions → New repository secret**, crie `BRAPI_TOKEN` com o seu token da brapi. O robô funciona sem ele.
 3. Se a primeira execução falhar no `git push`, vá em **Settings → Actions → General → Workflow permissions** e marque **Read and write permissions** (o robô precisa gravar os arquivos).
-4. Em **Actions → Screener semanal → Run workflow**, rode a primeira vez. Leva uns 2 minutos. Depois disso ele roda sozinho todo domingo às 19h.
+4. Em **Actions → Screener diário → Run workflow**, rode a primeira vez. Leva uns 2 minutos. Depois disso ele roda sozinho de segunda a sexta, às 18h (depois do fechamento da B3).
 
 Para rodar no computador: `pip install requests` e `python screener/screener.py`.
 

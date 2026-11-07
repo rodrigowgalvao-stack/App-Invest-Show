@@ -1,5 +1,5 @@
 """
-Screener semanal da B3.
+Screener diário da B3 (roda todo dia útil depois do fechamento).
 
 Pega a lista de ações da brapi (preço, volume e valor de mercado, liberados no
 plano gratuito), calcula os indicadores a partir dos balanços oficiais da CVM e
@@ -336,6 +336,8 @@ def main():
         "aprovadas": len(aprovadas),
         "criterios": CRITERIOS,
         "reprovacoes": dict(motivos.most_common()),
+        # O app refaz o ranking com o preço do dia a partir desta lista.
+        "universo": [m["ticker"] for m in universo],
         "oportunidades": [{k: (arred(m[k]) if isinstance(m[k], float) else m[k]) for k in campos}
                           for m in aprovadas[:CRITERIOS["top"]]],
     }, indent=2)
