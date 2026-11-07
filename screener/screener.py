@@ -7,6 +7,7 @@ grava dois arquivos que o app lê:
 
   dados/fundamentos.json    indicadores de todas as ações (telas Detalhe e Comparar)
   dados/oportunidades.json  ranking das que passam nos filtros (aba Oportunidades)
+  dados/analises.json       leitura em texto do ranking pelo Gemini (só com GEMINI_API_KEY)
 
 Uso local:  python screener/screener.py   (o token da brapi é opcional)
 """
@@ -22,6 +23,7 @@ from pathlib import Path
 
 import requests
 
+import analise_ia
 import cvm
 
 BASE = "https://brapi.dev/api"
@@ -344,6 +346,15 @@ def main():
     print(f"Indicadores: {len(todas)} ações | analisadas: {len(universo)} | aprovadas: {len(aprovadas)}")
     print("Reprovações:", dict(motivos.most_common()))
     print("Top:", ", ".join(m["ticker"] for m in aprovadas[:CRITERIOS["top"]]))
+
+    if analise_ia.CHAVE:
+        arquivo = DADOS / "analises.json"
+        anterior = json.loads(arquivo.read_text(encoding="utf-8")) if arquivo.exists() else None
+        analises = analise_ia.gerar(aprovadas[:CRITERIOS["top"]], cnpj_de, CRITERIOS, anterior)
+        gravar("analises.json", {"gerado_em": agora, **analises}, indent=2)
+        print(f"Leituras da IA ({analise_ia.MODELO}): {len(analises['acoes'])}")
+    else:
+        print("Sem GEMINI_API_KEY: leituras da IA não geradas.")
 
 
 if __name__ == "__main__":

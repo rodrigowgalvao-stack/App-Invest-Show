@@ -8,7 +8,14 @@ const String oportunidadesUrl = String.fromEnvironment('OPORTUNIDADES_URL');
 String get fundamentosUrl {
   const definido = String.fromEnvironment('FUNDAMENTOS_URL');
   if (definido.isNotEmpty) return definido;
+  return _vizinhoDoRanking('fundamentos.json');
+}
+
+/// Leituras do Gemini, também na pasta do ranking.
+String get analisesUrl => _vizinhoDoRanking('analises.json');
+
+String _vizinhoDoRanking(String arquivo) {
   if (oportunidadesUrl.isEmpty) return '';
   final i = oportunidadesUrl.lastIndexOf('/');
-  return '${oportunidadesUrl.substring(0, i + 1)}fundamentos.json';
+  return '${oportunidadesUrl.substring(0, i + 1)}$arquivo';
 }

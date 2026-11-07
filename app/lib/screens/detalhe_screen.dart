@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../models/acao.dart';
+import '../models/analise.dart';
+import '../services/analises_service.dart';
 import '../services/brapi_service.dart';
 import '../widgets/estado_erro.dart';
 import '../widgets/formatacao.dart';
 import '../widgets/grafico_preco.dart';
 
 class DetalheScreen extends StatefulWidget {
-  const DetalheScreen({super.key, required this.ticker, required this.api});
+  const DetalheScreen(
+      {super.key, required this.ticker, required this.api, this.analises});
   final String ticker;
   final BrapiService api;
+  final AnalisesService? analises;
 
   @override
   State<DetalheScreen> createState() => _DetalheScreenState();
@@ -29,11 +33,14 @@ class _DetalheScreenState extends State<DetalheScreen> {
   final Set<int> _medias = {};
   bool _volume = false;
   late Future<Acao> _futuro;
+  late final Future<Analise?> _analise;
 
   @override
   void initState() {
     super.initState();
     _futuro = _buscar();
+    _analise =
+        (widget.analises ?? AnalisesService.padrao).de(widget.ticker);
   }
 
   Future<Acao> _buscar({bool forcar = false}) => widget.api
@@ -169,6 +176,12 @@ class _DetalheScreenState extends State<DetalheScreen> {
           ),
           if (a.minimo52 != null && a.maximo52 != null && a.preco != null)
             _Faixa52(min: a.minimo52!, max: a.maximo52!, atual: a.preco!),
+          FutureBuilder<Analise?>(
+            future: _analise,
+            builder: (context, snap) => snap.data == null
+                ? const SizedBox.shrink()
+                : _CardAnalise(analise: snap.data!),
+          ),
           if (!a.temFundamentos)
             Card(
               margin: const EdgeInsets.only(top: 16),
@@ -230,6 +243,112 @@ class _Faixa52 extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CardAnalise extends StatelessWidget {
+  const _CardAnalise({required this.analise});
+  final Analise analise;
+
+  @override
+  Widget build(BuildContext context) {
+    final tema = Theme.of(context);
+    final cs = tema.colorScheme;
+    final pequeno = tema.textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant);
+    final a = analise;
+
+    Widget lista(String titulo, List<String> itens, IconData icone, Color cor) =>
+        Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(titulo, style: tema.textTheme.labelLarge),
+              for (final s in itens)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(icone, size: 16, color: cor),
+                      const SizedBox(width: 6),
+                      Expanded(child: Text(s)),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        );
+
+    return Card(
+      margin: const EdgeInsets.only(top: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.auto_awesome, size: 18, color: cs.primary),
+                const SizedBox(width: 6),
+                Text('Leitura da IA',
+                    style: tema.textTheme.titleSmall?.copyWith(color: cs.primary)),
+              ],
+            ),
+            if (a.resumo.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(a.resumo),
+            ],
+            if (a.pontosFortes.isNotEmpty)
+              lista('Pontos fortes', a.pontosFortes, Icons.add_circle_outline,
+                  Colors.green.shade600),
+            if (a.riscos.isNotEmpty)
+              lista('Riscos e o que conferir', a.riscos, Icons.error_outline,
+                  Colors.orange.shade700),
+            if (a.leituraFatos.isNotEmpty || a.fatos.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text('Fatos recentes (CVM)', style: tema.textTheme.labelLarge),
+              if (a.leituraFatos.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(a.leituraFatos),
+                ),
+              if (a.fatos.isNotEmpty)
+                Theme(
+                  data: tema.copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    childrenPadding: EdgeInsets.zero,
+                    dense: true,
+                    title: Text('Ver os ${a.fatos.length} documentos', style: pequeno),
+                    children: [
+                      for (final f in a.fatos)
+                        ListTile(
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          leading: Icon(
+                              f.relevante ? Icons.priority_high : Icons.campaign_outlined,
+                              size: 18),
+                          title: Text(f.assunto),
+                          subtitle: Text(
+                              '${f.data == null ? '' : '${fmtData(f.data!)} · '}${f.categoria}'),
+                        ),
+                    ],
+                  ),
+                ),
+            ],
+            const SizedBox(height: 12),
+            Text(
+              'Texto gerado por IA${a.modelo == null ? '' : ' (${a.modelo})'}'
+              '${a.geradoEm == null ? '' : ' em ${fmtData(a.geradoEm!)}'} a partir dos '
+              'indicadores do robô e dos assuntos dos documentos da CVM. Pode conter '
+              'erros e não é recomendação de investimento.',
+              style: pequeno,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -7,6 +7,8 @@ screener/cvm.py             leitura dos balanços oficiais (dados abertos da CVM
 .github/workflows/          agenda o robô todo dia útil
 dados/fundamentos.json      indicadores de todas as ações (telas Detalhe e Comparar)
 dados/oportunidades.json    ranking (aba Oportunidades)
+dados/analises.json         leitura do ranking pelo Gemini (detalhe da ação)
+screener/analise_ia.py      chamada ao Gemini
 ```
 
 ## De onde vêm os dados
@@ -27,6 +29,15 @@ O app junta as duas fontes: os indicadores que dependem do preço (P/L, P/VP, DY
 4. Em **Actions → Screener diário → Run workflow**, rode a primeira vez. Leva uns 2 minutos. Depois disso ele roda sozinho de segunda a sexta, às 18h (depois do fechamento da B3).
 
 Para rodar no computador: `pip install requests` e `python screener/screener.py`.
+
+### Leitura da IA (opcional)
+
+Com uma chave do Gemini, o robô escreve para cada ação do ranking um resumo, pontos fortes, riscos e o que os fatos relevantes e comunicados dos últimos 120 dias à CVM sugerem. Grava em `dados/analises.json`, e o app mostra no detalhe da ação, no card "Leitura da IA".
+
+1. Em **Settings → Secrets and variables → Actions → New repository secret**, crie `GEMINI_API_KEY` com a sua chave.
+2. (Opcional) Para trocar o modelo, defina `GEMINI_MODEL` no workflow (padrão: `gemini-3.8-flash`).
+
+Os números vêm do robô; a IA só comenta. Se a chamada falhar para uma ação, fica a leitura da semana anterior.
 
 ## 2. Ajustar os critérios (opcional)
 
