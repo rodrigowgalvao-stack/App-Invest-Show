@@ -16,10 +16,12 @@ void main() {
             {'data': '2026-10-20', 'categoria': 'Fato Relevante', 'assunto': 'Recompra'},
           ],
         },
+        'JHSF3': {'resumo': 'Pelo reserva.', 'modelo': 'gemini-3.5-flash-lite'},
         'XPTO3': 'inválido',
       },
     });
-    expect(mapa.keys, ['VULC3']);
+    expect(mapa.keys, ['VULC3', 'JHSF3']);
+    expect(mapa['JHSF3']!.modelo, 'gemini-3.5-flash-lite');
     final a = mapa['VULC3']!;
     expect(a.pontosFortes, ['ROE alto']);
     expect(a.riscos, ['DY inflado']);
