@@ -35,7 +35,8 @@ class Analise {
                 if (f is Map) FatoCvm.fromJson(Map<String, dynamic>.from(f))
             ]
           : const [],
-      modelo: modelo,
+      // O robô grava o modelo de cada ação (pode ter sido o reserva).
+      modelo: j['modelo'] as String? ?? modelo,
       geradoEm: geradoEm,
     );
   }
