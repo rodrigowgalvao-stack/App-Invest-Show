@@ -1,0 +1,47 @@
+{
+  "gerado_em": "2026-11-07T21:52-03:00",
+  "modelo": "gemini-3.8-flash",
+  "acoes": {
+    "VULC3": {
+      "resumo": "A Vulcabras apresenta alta rentabilidade, com ROE de 35,06%, e balanço sólido com endividamento baixo de 0,72x EBITDA. A empresa opera com múltiplos de avaliação reduzidos (P/L de 4,13), mas registrou retração de 51,27% no lucro em 12 meses.",
+      "pontos_fortes": [
+        "Alta rentabilidade sobre o patrimônio (ROE de 35,06%) e margem EBITDA de 21,60%",
+        "Endividamento controlado (Dívida Líquida/EBITDA de 0,72x) e liquidez corrente robusta de 2,96x",
+        "Crescimento de receita de 10,98% nos últimos 12 meses"
+      ],
+      "riscos": [
+        "Forte contração do lucro líquido em 12 meses (-51,27%)",
+        "Lucro líquido maior que o EBITDA e margem líquida superior à margem EBITDA, indicando possíveis efeitos não recorrentes a conferir",
+        "Dividend yield atipicamente alto (20,18%), que pode não se sustentar no futuro"
+      ],
+      "leitura_fatos": "A divulgação de um plano de recompra de ações e as apresentações do 2T26 mostram alocação de capital voltada para os próprios papéis da companhia.",
+      "fatos": [
+        {
+          "data": "2026-09-08",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": ""
+        },
+        {
+          "data": "2026-09-08",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": ""
+        },
+        {
+          "data": "2026-08-07",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Apresentação Institucional do 2T26"
+        },
+        {
+          "data": "2026-08-04",
+          "categoria": "Fato Relevante",
+          "assunto": "Plano de Recompra de Ações"
+        },
+        {
+          "data": "2026-08-04",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Apresentação da Videoconferência dos Resultados do 2T26"
+        }
+      ]
+    }
+  }
+}
