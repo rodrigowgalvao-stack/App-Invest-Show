@@ -10,6 +10,7 @@ leitura da semana anterior dela.
 """
 import json
 import os
+import re
 import time
 from datetime import date, timedelta
 
@@ -23,10 +24,18 @@ URL = "https://generativelanguage.googleapis.com/v1beta/models/{}:generateConten
 DIAS_FATOS = 120
 MAX_FATOS = 10
 CATEGORIAS_FATOS = {"Fato Relevante", "Comunicado ao Mercado"}
-TIMEOUT = 60  # segundos por chamada
+TIMEOUT = 90  # segundos por chamada
 # Tempo total para as leituras: o que não couber fica com a leitura anterior,
 # e o ranking é publicado de qualquer jeito.
-PRAZO = float(os.getenv("IA_PRAZO_MIN", "10")) * 60
+PRAZO = float(os.getenv("IA_PRAZO_MIN", "20")) * 60
+# Intervalo mínimo entre o início de duas chamadas. O plano gratuito do Gemini
+# aceita poucas chamadas por minuto; disparar as 15 seguidas dá HTTP 429.
+INTERVALO = float(os.getenv("IA_INTERVALO_S", "13"))
+ESPERA_MAX = 90  # segundos, no máximo, esperando a cota por minuto liberar
+
+
+class CotaDiaria(RuntimeError):
+    """A cota do dia acabou: não adianta tentar as outras ações."""
 
 INSTRUCOES = """Você é um analista de ações da B3 escrevendo para um investidor pessoa física.
 Recebe os indicadores já calculados de uma empresa e a lista de fatos relevantes recentes.
@@ -117,7 +126,26 @@ def _pergunta(m, fatos, criterios):
     return "\n".join(linhas)
 
 
-def _gemini(texto, tentativas=2):
+def _erro_429(r):
+    """(mensagem curta, segundos sugeridos para esperar, se a cota é diária)."""
+    try:
+        erro = r.json()["error"]
+    except (ValueError, KeyError, TypeError):
+        return f"HTTP 429: {r.text[:200]}", None, False
+    espera, cotas = None, []
+    for d in erro.get("details") or []:
+        tipo = d.get("@type", "")
+        if tipo.endswith("RetryInfo"):
+            m = re.match(r"([\d.]+)s", d.get("retryDelay", ""))
+            espera = float(m.group(1)) if m else None
+        elif tipo.endswith("QuotaFailure"):
+            cotas += [v.get("quotaId", "") for v in d.get("violations") or []]
+    diaria = any("PerDay" in c for c in cotas)
+    msg = (erro.get("message") or "").split("\n")[0][:120]
+    return f"HTTP 429 ({', '.join(cotas) or 'cota'}): {msg}", espera, diaria
+
+
+def _gemini(texto, tentativas=4):
     corpo = {
         "systemInstruction": {"parts": [{"text": INSTRUCOES}]},
         "contents": [{"role": "user", "parts": [{"text": texto}]}],
@@ -125,6 +153,7 @@ def _gemini(texto, tentativas=2):
     }
     erro = "falha desconhecida"
     for t in range(tentativas):
+        espera = 5 * 2 ** t
         try:
             r = requests.post(URL.format(MODELO), json=corpo, headers={"x-goog-api-key": CHAVE},
                               timeout=TIMEOUT)
@@ -134,12 +163,20 @@ def _gemini(texto, tentativas=2):
             if r.status_code == 200:
                 partes = r.json()["candidates"][0]["content"]["parts"]
                 return json.loads("".join(p.get("text", "") for p in partes))
-            # A mensagem do Google não traz a chave; 400/403 não melhoram tentando de novo.
-            erro = f"HTTP {r.status_code}: {r.text[:300]}"
-            if r.status_code in (400, 401, 403, 404):
-                break
+            if r.status_code == 429:
+                erro, sugerida, diaria = _erro_429(r)
+                if diaria:
+                    raise CotaDiaria(erro)
+                # O Google diz quanto esperar até a cota por minuto liberar.
+                espera = min(ESPERA_MAX, (sugerida or 30) + 2)
+            else:
+                # A mensagem do Google não traz a chave; 400/403 não melhoram tentando de novo.
+                erro = f"HTTP {r.status_code}: {r.text[:300]}"
+                if r.status_code in (400, 401, 403, 404):
+                    break
         if t + 1 < tentativas:
-            time.sleep(5 * 2 ** t)
+            print(f"    {erro[:160]} | nova tentativa em {espera:.0f}s", flush=True)
+            time.sleep(espera)
     raise RuntimeError(erro)
 
 
@@ -155,19 +192,26 @@ def gerar(acoes, cnpj_de, criterios, anterior=None):
         fatos = {}
     print(f"  fatos da CVM em {time.monotonic() - inicio:.0f}s", flush=True)
     saida = {}
+    ultima = None
     for i, m in enumerate(acoes, 1):
         tk = m["ticker"]
         if time.monotonic() - inicio > PRAZO:
             print(f"  prazo de {PRAZO / 60:.0f} min esgotado: {tk} e as seguintes ficam com a leitura anterior",
                   flush=True)
-            for resto in acoes[i - 1:]:
-                if resto["ticker"] in anterior:
-                    saida[resto["ticker"]] = anterior[resto["ticker"]]
+            _manter(acoes[i - 1:], anterior, saida)
             break
+        if ultima is not None:
+            time.sleep(max(0.0, INTERVALO - (time.monotonic() - ultima)))
+        ultima = time.monotonic()
         f = fatos.get(cnpj_de.get(tk), [])
         t0 = time.monotonic()
         try:
             leitura = _gemini(_pergunta(m, f, criterios))
+        except CotaDiaria as e:
+            print(f"  [{i}/{len(acoes)}] {tk}: cota diária do Gemini esgotada ({e}). "
+                  f"{tk} e as seguintes ficam com a leitura anterior; a cota volta no dia seguinte.", flush=True)
+            _manter(acoes[i - 1:], anterior, saida)
+            break
         except Exception as e:  # uma ação com problema não derruba as outras
             print(f"  [{i}/{len(acoes)}] {tk}: IA falhou em {time.monotonic() - t0:.0f}s: {e}", flush=True)
             if tk in anterior:
@@ -182,3 +226,9 @@ def gerar(acoes, cnpj_de, criterios, anterior=None):
             "fatos": [{"data": x["data"], "categoria": x["categoria"], "assunto": x["assunto"]} for x in f],
         }
     return {"modelo": MODELO, "acoes": saida}
+
+
+def _manter(acoes, anterior, saida):
+    for m in acoes:
+        if m["ticker"] in anterior:
+            saida[m["ticker"]] = anterior[m["ticker"]]

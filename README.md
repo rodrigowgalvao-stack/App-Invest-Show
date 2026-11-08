@@ -37,7 +37,9 @@ Com uma chave do Gemini, o robô escreve para cada ação do ranking um resumo, 
 1. Em **Settings → Secrets and variables → Actions → New repository secret**, crie `GEMINI_API_KEY` com a sua chave.
 2. (Opcional) Para trocar o modelo, defina `GEMINI_MODEL` no workflow (padrão: `gemini-3.8-flash`).
 
-Os números vêm do robô; a IA só comenta. Se a chamada falhar para uma ação, fica a leitura da semana anterior.
+Os números vêm do robô; a IA só comenta. Se a chamada falhar para uma ação, fica a leitura anterior.
+
+No plano gratuito do Gemini há limite de chamadas por minuto e por dia. O robô faz uma chamada a cada 13 s (`IA_INTERVALO_S`), espera o tempo que o Google pede quando recebe "quota exceeded" (HTTP 429) e, se a cota do dia acabou, para e tenta de novo na próxima execução. Se o log mostrar `PerDay` em todas as execuções, a cota diária do modelo não cobre as 15 ações: troque `GEMINI_MODEL` por um modelo mais leve ou ative o faturamento no Google AI Studio.
 
 ## 2. Ajustar os critérios (opcional)
 
