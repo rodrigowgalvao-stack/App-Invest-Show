@@ -1,7 +1,7 @@
 {
-  "gerado_em": "2026-11-07T21:52-03:00",
+  "gerado_em": "2026-11-08T19:27-03:00",
   "analisadas": 290,
-  "aprovadas": 70,
+  "aprovadas": 71,
   "criterios": {
     "universo_por_liquidez": 300,
     "valor_mercado_min": 500000000.0,
@@ -16,8 +16,8 @@
     "valor de mercado pequeno": 92,
     "ROE abaixo do mínimo": 49,
     "lucro zero ou negativo": 38,
-    "preço acima do preço justo (Graham e Bazin)": 22,
-    "dívida alta": 13,
+    "preço acima do preço justo (Graham e Bazin)": 20,
+    "dívida alta": 14,
     "balanço desatualizado": 4,
     "P/L acima do máximo": 2
   },
@@ -329,7 +329,7 @@
       "margem_liquida": 24.89,
       "div_liq_ebitda": 0.72,
       "dy": 20.18,
-      "nota": 87.24
+      "nota": 89.29
     },
     {
       "ticker": "JHSF3",
@@ -346,41 +346,7 @@
       "margem_liquida": 52.59,
       "div_liq_ebitda": 0.75,
       "dy": 6.04,
-      "nota": 86.45
-    },
-    {
-      "ticker": "LAVV3",
-      "nome": "LAVVI EMPREENDIMENTOS IMOBILIÁRIOS S.A.",
-      "setor": "Incorporações",
-      "preco": 8.17,
-      "preco_justo_graham": 19.48,
-      "potencial_graham": 138.4,
-      "preco_justo_bazin": 38.8,
-      "potencial_bazin": 374.85,
-      "pl": 3.99,
-      "pvp": 0.99,
-      "roe": 24.9,
-      "margem_liquida": 19.91,
-      "div_liq_ebitda": 1.17,
-      "dy": 28.49,
-      "nota": 81.86
-    },
-    {
-      "ticker": "POMO4",
-      "nome": "MARCOPOLO S.A.",
-      "setor": "Producer Manufacturing",
-      "preco": 3.68,
-      "preco_justo_graham": 8.62,
-      "potencial_graham": 134.28,
-      "preco_justo_bazin": 15.56,
-      "potencial_bazin": 322.84,
-      "pl": 3.8,
-      "pvp": 1.08,
-      "roe": 28.32,
-      "margem_liquida": 13.19,
-      "div_liq_ebitda": 1.22,
-      "dy": 25.37,
-      "nota": 81.64
+      "nota": 87.0
     },
     {
       "ticker": "DIRR3",
@@ -397,41 +363,41 @@
       "margem_liquida": 17.73,
       "div_liq_ebitda": 0.47,
       "dy": 25.09,
-      "nota": 81.5
+      "nota": 83.29
     },
     {
       "ticker": "MDNE3",
       "nome": "MOURA DUBEUX ENGENHARIA S/A",
       "setor": "Incorporações",
       "preco": 18.05,
-      "preco_justo_graham": 51.85,
-      "potencial_graham": 187.28,
-      "preco_justo_bazin": 24.22,
-      "potencial_bazin": 34.21,
-      "pl": 3.34,
-      "pvp": 0.82,
-      "roe": 24.38,
-      "margem_liquida": 21.43,
-      "div_liq_ebitda": 0.36,
-      "dy": 8.05,
-      "nota": 78.9
+      "preco_justo_graham": 55.29,
+      "potencial_graham": 206.32,
+      "preco_justo_bazin": 16.28,
+      "potencial_bazin": -9.78,
+      "pl": 3.14,
+      "pvp": 0.76,
+      "roe": 24.29,
+      "margem_liquida": 21.37,
+      "div_liq_ebitda": 0.83,
+      "dy": 5.41,
+      "nota": 80.64
     },
     {
-      "ticker": "WIZC3",
-      "nome": "WIZ CO PARTICIPAÇÕES E CORRETAGEM DE SEGUROS S.A.",
-      "setor": "Corretoras de Seguros e Resseguros",
-      "preco": 6.02,
-      "preco_justo_graham": 11.37,
-      "potencial_graham": 88.94,
-      "preco_justo_bazin": 25.07,
-      "potencial_bazin": 316.48,
-      "pl": 4.85,
-      "pvp": 1.3,
-      "roe": 26.78,
-      "margem_liquida": 15.57,
-      "div_liq_ebitda": -0.03,
-      "dy": 24.99,
-      "nota": 76.71
+      "ticker": "LAVV3",
+      "nome": "LAVVI EMPREENDIMENTOS IMOBILIÁRIOS S.A.",
+      "setor": "Incorporações",
+      "preco": 8.17,
+      "preco_justo_graham": 17.78,
+      "potencial_graham": 117.58,
+      "preco_justo_bazin": 40.62,
+      "potencial_bazin": 397.19,
+      "pl": 4.59,
+      "pvp": 1.04,
+      "roe": 22.61,
+      "margem_liquida": 18.02,
+      "div_liq_ebitda": 1.28,
+      "dy": 29.83,
+      "nota": 79.43
     },
     {
       "ticker": "PETR4",
@@ -448,7 +414,41 @@
       "margem_liquida": 24.32,
       "div_liq_ebitda": 1.14,
       "dy": 6.56,
-      "nota": 75.06
+      "nota": 76.5
+    },
+    {
+      "ticker": "POMO4",
+      "nome": "MARCOPOLO S.A.",
+      "setor": "Producer Manufacturing",
+      "preco": 3.68,
+      "preco_justo_graham": 8.15,
+      "potencial_graham": 121.59,
+      "preco_justo_bazin": 15.18,
+      "potencial_bazin": 312.42,
+      "pl": 4.28,
+      "pvp": 1.07,
+      "roe": 24.98,
+      "margem_liquida": 11.97,
+      "div_liq_ebitda": 1.34,
+      "dy": 24.75,
+      "nota": 75.79
+    },
+    {
+      "ticker": "WIZC3",
+      "nome": "WIZ CO PARTICIPAÇÕES E CORRETAGEM DE SEGUROS S.A.",
+      "setor": "Corretoras de Seguros e Resseguros",
+      "preco": 6.02,
+      "preco_justo_graham": 11.74,
+      "potencial_graham": 95.08,
+      "preco_justo_bazin": 19.25,
+      "potencial_bazin": 219.78,
+      "pl": 4.88,
+      "pvp": 1.21,
+      "roe": 24.79,
+      "margem_liquida": 16.77,
+      "div_liq_ebitda": -0.12,
+      "dy": 19.19,
+      "nota": 73.57
     },
     {
       "ticker": "PLPL3",
@@ -465,24 +465,24 @@
       "margem_liquida": 8.62,
       "div_liq_ebitda": 0.34,
       "dy": 0.0,
-      "nota": 73.5
+      "nota": 73.57
     },
     {
       "ticker": "TEND3",
       "nome": "CONSTRUTORA TENDA S.A.",
       "setor": "Incorporações",
       "preco": 16.92,
-      "preco_justo_graham": 33.51,
-      "potencial_graham": 98.06,
-      "preco_justo_bazin": 21.32,
-      "potencial_bazin": 26.0,
-      "pl": 3.91,
-      "pvp": 1.47,
-      "roe": 37.61,
-      "margem_liquida": 12.08,
-      "div_liq_ebitda": 0.39,
-      "dy": 7.56,
-      "nota": 71.41
+      "preco_justo_graham": 34.61,
+      "potencial_graham": 104.57,
+      "preco_justo_bazin": 20.45,
+      "potencial_bazin": 20.88,
+      "pl": 3.95,
+      "pvp": 1.36,
+      "roe": 34.37,
+      "margem_liquida": 10.68,
+      "div_liq_ebitda": 0.33,
+      "dy": 7.25,
+      "nota": 72.43
     },
     {
       "ticker": "PINE4",
@@ -499,41 +499,7 @@
       "margem_liquida": null,
       "div_liq_ebitda": null,
       "dy": null,
-      "nota": 71.29
-    },
-    {
-      "ticker": "VIVA3",
-      "nome": "VIVARA PARTICIPAÇOES S.A",
-      "setor": "Acessórios",
-      "preco": 17.91,
-      "preco_justo_graham": 33.23,
-      "potencial_graham": 85.52,
-      "preco_justo_bazin": 25.4,
-      "potencial_bazin": 41.85,
-      "pl": 4.94,
-      "pvp": 1.32,
-      "roe": 26.76,
-      "margem_liquida": 25.4,
-      "div_liq_ebitda": 0.11,
-      "dy": 8.51,
-      "nota": 69.77
-    },
-    {
-      "ticker": "BMGB4",
-      "nome": "BANCO BMG S.A.",
-      "setor": "Bancos",
-      "preco": 5.37,
-      "preco_justo_graham": 35.33,
-      "potencial_graham": 557.92,
-      "preco_justo_bazin": 22.9,
-      "potencial_bazin": 326.4,
-      "pl": 2.04,
-      "pvp": 0.25,
-      "roe": 12.48,
-      "margem_liquida": null,
-      "div_liq_ebitda": null,
-      "dy": 25.58,
-      "nota": 68.48
+      "nota": 72.14
     },
     {
       "ticker": "CYRE3",
@@ -550,7 +516,7 @@
       "margem_liquida": 20.67,
       "div_liq_ebitda": 1.91,
       "dy": 16.55,
-      "nota": 68.32
+      "nota": 69.79
     },
     {
       "ticker": "CURY3",
@@ -567,7 +533,41 @@
       "margem_liquida": 17.89,
       "div_liq_ebitda": -0.19,
       "dy": 15.49,
-      "nota": 68.24
+      "nota": 69.43
+    },
+    {
+      "ticker": "BNBR3",
+      "nome": "BCO NORDESTE DO BRASIL S.A.",
+      "setor": "Bancos",
+      "preco": 104.0,
+      "preco_justo_graham": 327.22,
+      "potencial_graham": 214.63,
+      "preco_justo_bazin": 114.71,
+      "potencial_bazin": 10.3,
+      "pl": 3.72,
+      "pvp": 0.61,
+      "roe": 16.4,
+      "margem_liquida": null,
+      "div_liq_ebitda": null,
+      "dy": 6.62,
+      "nota": 67.5
+    },
+    {
+      "ticker": "GRND3",
+      "nome": "GRENDENE S.A.",
+      "setor": "Calçados",
+      "preco": 3.89,
+      "preco_justo_graham": 7.16,
+      "potencial_graham": 83.94,
+      "preco_justo_bazin": 18.49,
+      "potencial_bazin": 375.37,
+      "pl": 6.24,
+      "pvp": 1.07,
+      "roe": 17.1,
+      "margem_liquida": 22.21,
+      "div_liq_ebitda": -0.29,
+      "dy": 28.52,
+      "nota": 66.29
     }
   ]
 }
