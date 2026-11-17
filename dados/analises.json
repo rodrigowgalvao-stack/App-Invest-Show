@@ -1,53 +1,27 @@
 {
-  "gerado_em": "2026-11-13T22:29-03:00",
+  "gerado_em": "2026-11-17T00:58-03:00",
   "modelo": "gemini-3.8-flash",
   "acoes": {
-    "VULC3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Vulcabras apresenta rentabilidade elevada com ROE de 35.06% e margem líquida de 24.89%. O P/L baixo de 3.93 e o dividend yield de 21.20% chamam a atenção e podem indicar lucros não recorrentes ou dividendos extraordinários que exigem conferência.",
-      "pontos_fortes": [
-        "ROE elevado de 35.06%",
-        "Boa liquidez corrente de 2.96x",
-        "Endividamento baixo com dívida líquida sobre EBITDA de 0.72x"
-      ],
-      "riscos": [
-        "Queda de 51.27% no lucro nos últimos 12 meses",
-        "Dividend yield muito alto de 21.20% que pode não se repetir",
-        "P/L muito baixo de 3.93 que pede análise de eventos não recorrentes"
-      ],
-      "leitura_fatos": "Os fatos recentes tratam da divulgação dos resultados do segundo trimestre de 2026 e do anúncio de um plano de recompra de ações.",
-      "fatos": [
-        {
-          "data": "2026-08-07",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Apresentação Institucional do 2T26"
-        },
-        {
-          "data": "2026-08-04",
-          "categoria": "Fato Relevante",
-          "assunto": "Plano de Recompra de Ações"
-        },
-        {
-          "data": "2026-08-04",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Apresentação da Videoconferência dos Resultados do 2T26"
-        }
-      ]
-    },
     "JHSF3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A JHSF Participações apresenta alta rentabilidade com ROE de 28.40% e forte crescimento de receita e lucro nos últimos 12 meses. O P/L de 3.04 é muito baixo e pede conferência para verificar se há lucro não recorrente.",
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A JHSF apresenta múltiplos de valuation bastante comprimidos, com P/L de 3,14 e P/VP de 0,85. A empresa entrega alta rentabilidade, com ROE de 27,16% e margens elevadas no acumulado de 12 meses. O endividamento segue sob controle, com alavancagem de 0,95x o EBITDA e boa liquidez corrente.",
       "pontos_fortes": [
-        "Margem líquida elevada de 52.59%",
-        "Endividamento controlado com dívida líquida sobre EBITDA de 0.75x",
-        "Crescimento da receita de 63.78% em 12 meses"
+        "Elevada rentabilidade sobre o patrimônio, com ROE de 27,16%.",
+        "Margens operacionais robustas, destacando-se a margem líquida de 48,27%.",
+        "Alavancagem financeira controlada, com Dívida Líquida/EBITDA em 0,95x."
       ],
       "riscos": [
-        "P/L muito baixo pode indicar ganho não recorrente que não se repetirá",
-        "Ciclo do setor imobiliário pode impactar os resultados futuros"
+        "P/L de 3,14 muito baixo para o setor, o que pede conferência sobre a presença de lucros não recorrentes.",
+        "Margens muito acima do padrão de incorporação tradicional, exigindo atenção à sustentabilidade desses resultados.",
+        "Setor de incorporação imobiliária sujeito à ciclicidade macroeconômica."
       ],
-      "leitura_fatos": "Os fatos recentes mostram novidades operacionais como a inauguração de lojas, projetos internacionais e captação de debêntures.",
+      "leitura_fatos": "Os comunicados recentes mostram expansão operacional no segmento de alta renda, emissão de debêntures e iniciativa de recompra de ações.",
       "fatos": [
+        {
+          "data": "2026-11-13",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Apresentação 3T26"
+        },
         {
           "data": "2026-11-05",
           "categoria": "Comunicado ao Mercado",
@@ -89,67 +63,32 @@
           "assunto": "Captação da 19ª Emissão de Debêntures Simples"
         },
         {
-          "data": "2026-08-14",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Apresentação de Resultados"
-        },
-        {
           "data": "2026-08-13",
           "categoria": "Fato Relevante",
           "assunto": "Programa de recompra de ações"
         }
       ]
     },
-    "DIRR3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Direcional Engenharia apresenta alta rentabilidade, com ROE de 36.78% e margem líquida de 17.73%. O dividendo yield muito elevado e o P/L baixo pedem conferência, pois podem refletir ganhos não recorrentes ou dividendos extraordinários.",
-      "pontos_fortes": [
-        "ROE elevado de 36.78%",
-        "Crescimento da receita de 24.73% em 12 meses",
-        "Endividamento baixo com dívida líquida sobre EBITDA de 0.47x"
-      ],
-      "riscos": [
-        "Dividend yield de 23.14% exige atenção para verificar se é sustentável ou extraordinário",
-        "P/L de 5.79 é muito baixo e pode incluir efeitos não recorrentes no lucro"
-      ],
-      "leitura_fatos": "Os fatos recentes mostram a divulgação de resultados e da prévia operacional, a entrada no índice IBrX 50 e a aprovação de um novo programa de recompra de ações.",
-      "fatos": [
-        {
-          "data": "2026-10-14",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Prévia Operacional 3T26"
-        },
-        {
-          "data": "2026-09-08",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Entrada no IBrX 50"
-        },
-        {
-          "data": "2026-08-12",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Resultado 2T26"
-        },
-        {
-          "data": "2026-08-11",
-          "categoria": "Fato Relevante",
-          "assunto": "Aprovação do novo Programa de Recompra de Ações"
-        }
-      ]
-    },
     "MDNE3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Moura Dubeux apresenta indicadores fortes nos últimos 12 meses, com ROE de 24.29% e crescimento expressivo do lucro de 55.73%. O P/L está em 3.17, um patamar muito baixo que pede conferência sobre a sustentabilidade desse lucro.",
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Moura Dubeux apresenta múltiplos de avaliação bastante descontados no setor de incorporação, com P/L de 3,07 e P/VP de 0,74. O desempenho operacional recente mostra forte rentabilidade, com ROE de 24,29% e avanço expressivo de lucros e receitas nos últimos 12 meses. O balanço exibe baixo endividamento líquido e folgada liquidez corrente.",
       "pontos_fortes": [
-        "Boa rentabilidade com ROE de 24.29%",
-        "Crescimento da receita de 25.17% em 12 meses",
-        "Endividamento controlado com dívida líquida sobre EBITDA de 0.83x"
+        "Retorno sobre o patrimônio elevado, com ROE de 24,29%.",
+        "Endividamento controlado, com dívida líquida/EBITDA em 0,83x e liquidez corrente de 2,20x.",
+        "Crescimento consistente de 12 meses, com receita subindo 25,17% e lucro avançando 55,73%."
       ],
       "riscos": [
-        "P/L muito baixo (3.17) pode indicar lucro não recorrente",
-        "Margem líquida muito próxima da margem EBITDA, exigindo atenção à origem dos resultados"
+        "P/L muito baixo (3,07) e lucro quase idêntico ao EBITDA pedem conferência de possíveis efeitos não recorrentes.",
+        "Setor imobiliário e de incorporação é sensível a ciclos econômicos e oscilações de juros.",
+        "Preço atual está 7,53% acima do preço justo calculado pelo método de Bazin."
       ],
-      "leitura_fatos": "Os comunicados recentes cobrem a divulgação de resultados periódicos, prévias operacionais e participações em webcasts e entrevistas.",
+      "leitura_fatos": "Os comunicados recentes focam em divulgações de resultados operacionais e trimestrais, além de rotinas corporativas como a inclusão no IDIV e alterações em comitê estatutário, sem apontar eventos atípicos.",
       "fatos": [
+        {
+          "data": "2026-11-10",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Mudança na composição do comitê de auditoria estatutário"
+        },
         {
           "data": "2026-11-06",
           "categoria": "Comunicado ao Mercado",
@@ -192,20 +131,87 @@
         }
       ]
     },
-    "LAVV3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Lavvi apresenta um P/L baixo de 4.65 e um dividend yield muito alto de 29.44%, o que pode indicar eventos extraordinários. O ROE é forte, em 22.61%, mesmo com queda no lucro de 12 meses.",
+    "PETR4": {
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Petrobras apresenta múltiplos de valuation baixos, como P/L de 4,04 e EV/EBITDA de 3,20x, acompanhados de forte rentabilidade com ROE de 27,82%. O endividamento segue controlado em 1,03x Dívida Líquida/EBITDA, com geração robusta de caixa e margem líquida de 23,80%. Os resultados refletem um ano positivo no ciclo de commodities e crescimento expressivo de receita e lucro.",
       "pontos_fortes": [
-        "ROE elevado de 22.61%",
-        "Boa liquidez corrente de 4.67x",
-        "Margem líquida sólida de 18.02%"
+        "Alta rentabilidade sobre o patrimônio (ROE de 27,82%) e margens operacionais elevadas (Margem EBITDA de 49,13%).",
+        "Múltiplos de valuation descontados, com P/L de 4,04 e grande potencial teórico pelo modelo de Graham.",
+        "Alavancagem financeira saudável, com Dívida Líquida/EBITDA em 1,03x."
       ],
       "riscos": [
-        "Dividend yield de 29.44% pede conferência sobre pagamento extraordinário",
-        "Queda de 21.42% no lucro em 12 meses",
-        "P/L muito baixo que exige análise de recorrente"
+        "Liquidez corrente abaixo de 1 (0,90x), o que exige atenção à capacidade de pagamento de curto prazo.",
+        "Resultados e múltiplos baixos estão atrelados ao ciclo do petróleo, sujeitos à volatilidade de preços internacionais.",
+        "P/L muito comprimido sugere que o mercado pode antecipar normalização ou queda nos lucros futuros."
       ],
-      "leitura_fatos": "Os fatos recentes mostram foco em pagamento de dividendos e novos programas de recompra de ações.",
+      "leitura_fatos": "Os comunicados recentes mostram foco na continuidade da remuneração aos acionistas e na gestão de ativos, como a aquisição da fatia integral da Logum. Também indicam acompanhamento operacional regular com divulgação de relatórios de produção e revisão de projeções para 2026.",
+      "fatos": [
+        {
+          "data": "2026-11-12",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Petrobras celebra acordo para assumir 100% da Logum"
+        },
+        {
+          "data": "2026-11-10",
+          "categoria": "Fato Relevante",
+          "assunto": "Petrobras informa sobre remuneração aos acionistas"
+        },
+        {
+          "data": "2026-11-10",
+          "categoria": "Fato Relevante",
+          "assunto": "Petrobras atualiza projeções operacionais e financeiras para 2026"
+        },
+        {
+          "data": "2026-10-28",
+          "categoria": "Fato Relevante",
+          "assunto": "Relatório de Produção e Vendas 3T26"
+        },
+        {
+          "data": "2026-10-13",
+          "categoria": "Fato Relevante",
+          "assunto": "Petrobras assina acordos de equalizações referentes às Jazidas Compartilhadas de Berbigão e Sururu"
+        },
+        {
+          "data": "2026-10-08",
+          "categoria": "Fato Relevante",
+          "assunto": "Petrobras informa sobre resultado de leilão da ANP"
+        },
+        {
+          "data": "2026-09-19",
+          "categoria": "Fato Relevante",
+          "assunto": "Petrobras informa sobre adesão à nova subvenção econômica"
+        },
+        {
+          "data": "2026-08-06",
+          "categoria": "Fato Relevante",
+          "assunto": "Petrobras informa sobre remuneração aos acionistas"
+        },
+        {
+          "data": "2026-07-31",
+          "categoria": "Fato Relevante",
+          "assunto": "Relatório de Produção e Vendas 2T26"
+        },
+        {
+          "data": "2026-07-28",
+          "categoria": "Fato Relevante",
+          "assunto": "Relatório de Produção e Vendas 2T26"
+        }
+      ]
+    },
+    "LAVV3": {
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Lavvi apresenta múltiplos de avaliação baixos, com P/L de 4,51x e P/VP próximo de 1,02x, acompanhados por um ROE elevado de 22,61%. A empresa opera com margens operacionais sólidas no setor de incorporação e excelente liquidez corrente de 4,67x.",
+      "pontos_fortes": [
+        "Rentabilidade sobre o patrimônio alta, com ROE de 22,61% e margem líquida de 18,02%.",
+        "Excelente liquidez corrente (4,67x) e endividamento controlado (Dívida Líquida/EBITDA de 1,28x).",
+        "Forte retorno em proventos recente, com Dividend Yield acumulado de 30,35%."
+      ],
+      "riscos": [
+        "Dividend Yield muito elevado (30,35%) que pode envolver distribuições extraordinárias e dificilmente se manter nesse patamar.",
+        "Queda de 21,42% no lucro líquido nos últimos 12 meses, apesar do crescimento da receita.",
+        "Setor de incorporação imobiliária é sensível a ciclos econômicos e oscilações de juros."
+      ],
+      "leitura_fatos": "Os comunicados recentes mostram foco intenso no retorno de capital ao acionista, destacando múltiplos anúncios de pagamento de dividendos e programas de recompra de ações.",
       "fatos": [
         {
           "data": "2026-11-04",
@@ -259,87 +265,57 @@
         }
       ]
     },
-    "PETR4": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Petrobras apresenta forte rentabilidade com ROE de 27.73% e margens elevadas, refletindo o bom momento do setor de petróleo e gás. O P/L de 4.38 é baixo e o crescimento do lucro em 12 meses foi expressivo, alcançando 37.58%.",
+    "PINE4": {
+      "modelo": "gemini-3.8-flash",
+      "resumo": "O Banco Pine apresenta indicadores de alta rentabilidade recente, com ROE de 36,74% e forte expansão de lucros. Suas ações negociam a um P/L baixo de 4,14, ficando bem abaixo do preço justo de Graham calculado em R$ 21,01. Trata-se de uma instituição financeira de médio porte avaliada em R$ 2,81 bilhões.",
       "pontos_fortes": [
-        "Alta rentabilidade com ROE de 27.73%",
-        "Margem EBITDA robusta de 49.83%",
-        "Endividamento controlado com dívida líquida sobre EBITDA de 1.14x"
+        "ROE elevado de 36,74%, indicando forte retorno sobre o patrimônio.",
+        "Crescimento expressivo do lucro líquido em 102,95% nos últimos 12 meses.",
+        "Múltiplo P/L atrativo de 4,14 e potencial de 89,10% até o valor justo de Graham."
       ],
       "riscos": [
-        "P/L muito baixo que pode indicar lucro não recorrente típico do ciclo de commodities",
-        "Liquidez corrente abaixo de 1 em 0.85x",
-        "O ciclo de commodities pode alterar drasticamente o lucro de um ano para outro"
+        "O salto de 102,95% no lucro pode conter efeitos não recorrentes e requer conferência da sustentabilidade dos resultados.",
+        "P/L de 4,14 bastante baixo pode sinalizar desconfiança do mercado quanto à continuidade desse nível de rentabilidade.",
+        "Sensibilidade típica do setor bancário a ciclos de crédito e inadimplência."
       ],
-      "leitura_fatos": "Os fatos recentes mostram atualizações de produção, acordos de jazidas compartilhadas e a elevação do perfil de crédito pela agência Fitch.",
+      "leitura_fatos": "Os comunicados recentes trazem divulgações de rotina e um cancelamento de ações em tesouraria, movimento que reduz a base acionária da instituição.",
       "fatos": [
         {
-          "data": "2026-11-04",
+          "data": "2026-11-11",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Fitch eleva o Perfil de Crédito Individual da Petrobras"
+          "assunto": "Versão em Portugues"
         },
         {
-          "data": "2026-11-04",
+          "data": "2026-08-21",
+          "categoria": "Fato Relevante",
+          "assunto": "Cancelamento de ações em tesouraria"
+        },
+        {
+          "data": "2026-08-12",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Petrobras informa novo horário de webcast de resultados do 3T26"
+          "assunto": "Versão em Portugues"
         },
         {
-          "data": "2026-10-29",
+          "data": "2026-07-20",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Notícia divulgada na mídia"
-        },
-        {
-          "data": "2026-10-28",
-          "categoria": "Fato Relevante",
-          "assunto": "Relatório de Produção e Vendas 3T26"
-        },
-        {
-          "data": "2026-10-13",
-          "categoria": "Fato Relevante",
-          "assunto": "Petrobras assina acordos de equalizações referentes às Jazidas Compartilhadas de Berbigão e Sururu"
-        },
-        {
-          "data": "2026-10-08",
-          "categoria": "Fato Relevante",
-          "assunto": "Petrobras informa sobre resultado de leilão da ANP"
-        },
-        {
-          "data": "2026-09-19",
-          "categoria": "Fato Relevante",
-          "assunto": "Petrobras informa sobre adesão à nova subvenção econômica"
-        },
-        {
-          "data": "2026-08-06",
-          "categoria": "Fato Relevante",
-          "assunto": "Petrobras informa sobre remuneração aos acionistas"
-        },
-        {
-          "data": "2026-07-31",
-          "categoria": "Fato Relevante",
-          "assunto": "Relatório de Produção e Vendas 2T26"
-        },
-        {
-          "data": "2026-07-28",
-          "categoria": "Fato Relevante",
-          "assunto": "Relatório de Produção e Vendas 2T26"
+          "assunto": "Cronograma de divulgação dos resultados do segundo trimestre de 2026"
         }
       ]
     },
     "POMO4": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Marcopolo apresenta um P/L baixo de 4.36 e um dividend yield muito alto de 24.28%, acompanhados por um ROE sólido de 24.98%. O lucro e a receita dos últimos 12 meses mostraram quedas de 17.98% e 2.56%, respectivamente.",
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Marcopolo apresenta múltiplos de valuation baixos, com P/L de 4,43 e um Dividend Yield bastante elevado de 23,90%. A empresa mantém boa rentabilidade sobre o patrimônio e alavancagem financeira sob controle. Por outro lado, registra retração recente tanto na receita quanto no lucro dos últimos 12 meses.",
       "pontos_fortes": [
-        "ROE elevado de 24.98%",
-        "Endividamento controlado com dívida líquida sobre EBITDA de 1.34x",
-        "Boa rentabilidade com margem líquida de 11.97%"
+        "ROE elevado de 24,98% e margem líquida de 11,97%",
+        "Endividamento equilibrado com Dívida líquida/EBITDA de 1,34x e liquidez corrente de 1,85x",
+        "Forte retorno em proventos com Dividend Yield em 23,90%"
       ],
       "riscos": [
-        "Dividend yield de 24.28% é muito alto e pode indicar pagamento de dividendos extraordinários",
-        "Queda de 17.98% no lucro em 12 meses exige atenção",
-        "Retração de 2.56% na receita nos últimos 12 meses"
+        "Dividend Yield de 23,90% e P/L de 4,43 exigem atenção para verificar se houve proventos extraordinários ou eventos não recorrentes",
+        "Queda de 17,98% no lucro líquido nos últimos 12 meses",
+        "Leve retração na receita de 2,56% no mesmo período"
       ],
-      "leitura_fatos": "Os comunicados recentes cobrem a divulgação de resultados trimestrais, eventos institucionais e avisos sobre dividendos e recompra de ações.",
+      "leitura_fatos": "Os comunicados recentes destacam a divulgação de resultados e um fato relevante sobre dividendos e recompra de ações, alinhado à forte distribuição de proventos observada no período.",
       "fatos": [
         {
           "data": "2026-11-04",
@@ -363,51 +339,67 @@
         }
       ]
     },
-    "PINE4": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "O Banco Pine apresenta um P/L baixo de 4.75 e um ROE elevado de 33.48%, acompanhado por um crescimento expressivo do lucro em 12 meses de 120.14%. Como instituição financeira, o banco não possui dados de margem ou EBITDA.",
+    "DIRR3": {
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Direcional apresenta forte rentabilidade recente, com ROE de 32,92% e margens operacionais elevadas no setor de incorporação. A empresa opera com baixo endividamento líquido em relação ao EBITDA e negocia a múltiplos baixos de P/L (5,89). Além disso, exibe um retorno em proventos expressivo, com Dividend Yield de 16,53%.",
       "pontos_fortes": [
-        "ROE elevado de 33.48%",
-        "Forte crescimento do lucro de 120.14% em 12 meses",
-        "Preço atual abaixo do valor justo de Graham"
+        "Alta rentabilidade sobre o patrimônio, com ROE de 32,92% e margem líquida de 17,13%.",
+        "Estrutura de capital equilibrada, com Dívida Líquida/EBITDA de 0,50x e liquidez corrente de 3,86x.",
+        "Elevada distribuição recente de proventos, resultando em Dividend Yield de 16,53%."
       ],
       "riscos": [
-        "P/L muito baixo e crescimento enorme exigem conferência para verificar se há lucro não recorrente",
-        "P/VP de 1.59 indica negociação acima do valor patrimonial"
+        "O Dividend Yield elevado de 16,53% pode conter pagamentos extraordinários e requer cautela quanto à recorrência.",
+        "O setor de incorporações imobiliárias é historicamente sensível a ciclos econômicos, juros e custo de crédito.",
+        "Diferença acentuada entre o ROE (32,92%) e o ROA (5,66%), refletindo a alavancagem total de ativos típica do setor."
       ],
-      "leitura_fatos": "Os fatos recentes incluem o cancelamento de ações em tesouraria e o cronograma de divulgação de resultados, sem indicar eventos operacionais atípicos.",
+      "leitura_fatos": "Os comunicados recentes destacam a divulgação regular dos resultados e prévias operacionais, a entrada no índice IBrX 50 e a aprovação de um novo programa de recompra de ações.",
       "fatos": [
         {
-          "data": "2026-08-21",
-          "categoria": "Fato Relevante",
-          "assunto": "Cancelamento de ações em tesouraria"
+          "data": "2026-11-10",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Resultados 3T26"
+        },
+        {
+          "data": "2026-11-10",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Apresentação Institucional 3T26"
+        },
+        {
+          "data": "2026-10-14",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Prévia Operacional 3T26"
+        },
+        {
+          "data": "2026-09-08",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Entrada no IBrX 50"
         },
         {
           "data": "2026-08-12",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Versão em Portugues"
+          "assunto": "Resultado 2T26"
         },
         {
-          "data": "2026-07-20",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Cronograma de divulgação dos resultados do segundo trimestre de 2026"
+          "data": "2026-08-11",
+          "categoria": "Fato Relevante",
+          "assunto": "Aprovação do novo Programa de Recompra de Ações"
         }
       ]
     },
     "WIZC3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Wiz Co apresenta rentabilidade sólida com ROE de 24,79% e indicadores atrativos, como P/L de 5,15 e dividend yield de 18,19%. No entanto, a receita dos últimos 12 meses registrou queda de 19,77%.",
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Wiz Co apresenta múltiplos de valuation baixos, com P/L de 5,09 e Dividend Yield elevado de 18,42%. A rentabilidade é forte, marcada por um ROE de 24,79%, aliada a uma estrutura de capital sem dívida líquida. Contudo, os números mostram retração recente nas receitas e no lucro.",
       "pontos_fortes": [
-        "Boa rentabilidade com ROE de 24,79%",
-        "Endividamento baixo com dívida líquida sobre EBITDA negativa",
-        "Alta geração de caixa e margem EBITDA de 51,42%"
+        "Retorno sobre o patrimônio elevado, com ROE de 24,79%",
+        "Caixa líquido positivo, com relação Dívida Líquida/EBITDA de -0,12x",
+        "Altas margens operacionais, com margem EBITDA de 51,42%"
       ],
       "riscos": [
-        "Dividend yield muito alto (18,19%) e P/L baixo (5,15) podem indicar eventos não recorrentes",
-        "Queda de 19,77% na receita em 12 meses",
-        "Vale conferir a sustentabilidade desses lucros e dividendos"
+        "Dividend Yield de 18,42% muito alto, o que exige verificar se houve proventos extraordinários",
+        "Queda de 19,77% na receita nos últimos 12 meses",
+        "Lucro líquido em leve retração de 2,60% no período"
       ],
-      "leitura_fatos": "Os fatos recentes incluem a divulgação dos resultados trimestrais e a alienação da participação na Inter Seguros, o que pode ter gerado impactos extraordinários nos números.",
+      "leitura_fatos": "O fato relevante recente sobre a alienação da Inter Seguros sugere mudanças no portfólio de ativos da companhia, o que pode influenciar receitas futuras e a distribuição de proventos.",
       "fatos": [
         {
           "data": "2026-11-05",
@@ -431,66 +423,77 @@
         }
       ]
     },
-    "PLPL3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Plano & Plano apresenta um P/L baixo de 3.15 e um ROE de 27.32%, refletindo alta rentabilidade recente. No entanto, o lucro dos últimos 12 meses caiu 37.68%, o que pede atenção para a sustentabilidade desse patamar.",
+    "CURY3": {
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Cury apresenta forte rentabilidade com ROE de 65,06% e margens elevadas no setor de incorporação. A companhia mantém caixa líquido com Dívida Líquida/EBITDA de -0,20x e crescimento expressivo de receita e lucro nos últimos 12 meses. O Dividend Yield atinge patamar bastante elevado de 17,54%.",
       "pontos_fortes": [
-        "ROE elevado de 27.32%",
-        "Baixa alavancagem com dívida líquida sobre EBITDA de 0.34x",
-        "Boa liquidez corrente de 3.01x"
+        "Excelente rentabilidade sobre o patrimônio (ROE de 65,06%) e margem líquida de 17,64%.",
+        "Estrutura de capital sólida com caixa líquido (Dívida Líquida/EBITDA em -0,20x).",
+        "Forte expansão operacional, com avanço de 29,18% na receita e 25,77% no lucro em 12 meses."
       ],
       "riscos": [
-        "Queda de 37.68% no lucro em 12 meses",
-        "P/L muito baixo de 3.15 pode indicar lucro não recorrente que vale conferir",
-        "Dividend yield de 0.00% nos últimos 12 meses"
+        "Dividend Yield muito elevado de 17,54%, o que sugere verificar se houve pagamentos extraordinários não sustentáveis no longo prazo.",
+        "Múltiplo Preço/Valor Patrimonial alto de 4,75x, indicando negociação com ágio sobre o patrimônio contábil.",
+        "Preço de mercado atual (R$ 27,45) negociando acima do Preço Justo de Graham (R$ 22,09)."
       ],
-      "leitura_fatos": "Os comunicados recentes destacam a entrada da empresa no índice IBrX 100 da B3, além da divulgação de prévias operacionais, resultados e mudanças na governança.",
+      "leitura_fatos": "Os comunicados recentes focam na divulgação rotineira de resultados e apresentações institucionais do 2T26 e 3T26. Destaca-se também a inclusão das ações da companhia na carteira do índice IBrX 50.",
       "fatos": [
         {
-          "data": "2026-10-14",
+          "data": "2026-11-11",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Prévia 3T26"
+          "assunto": "Apresentação do webcast de resultados do 3T26 e 9M26"
         },
         {
-          "data": "2026-09-10",
+          "data": "2026-11-10",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Plano&ampPlano (PLPL3) passa a integrar o IBrX 100 da B3"
+          "assunto": "Apresentação Institucional 3T26 e 9M26"
         },
         {
-          "data": "2026-08-27",
+          "data": "2026-10-08",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Apresentação Institucional"
+          "assunto": "Apresentação Institucional 3T26 e 9M26"
         },
         {
-          "data": "2026-08-13",
+          "data": "2026-10-08",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Apresentação de Resultados 2T26 | 2Q26"
+          "assunto": "Prévia de resultados 3T26 e 9M26"
+        },
+        {
+          "data": "2026-09-09",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Entrada da Cury no IBrX 50"
+        },
+        {
+          "data": "2026-08-20",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Participação de executivo em evento online"
+        },
+        {
+          "data": "2026-08-12",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Apresentação do webcast de resultados do 2T26 e 6M26"
         },
         {
           "data": "2026-08-11",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Alteração na Composição do Conselho de Administração"
-        },
-        {
-          "data": "2026-08-10",
-          "categoria": "Fato Relevante",
-          "assunto": "Novo Acordo de Acionistas"
+          "assunto": "Apresentação Institucional 2T26 | 6M26"
         }
       ]
     },
     "TEND3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Tenda apresenta indicadores fortes com um ROE de 34.37% e margem líquida de 10.68%. O P/L de 4.03 e o EV/EBITDA de 2.25x são muito baixos e pedem atenção para verificar a sustentabilidade ou a presença de lucros não recorrentes.",
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Tenda apresenta múltiplos de avaliação bastante descontados, com P/L de 3,82 e dividend yield de 7,51%. A construtora exibe alta rentabilidade recente, com ROE de 34,37%, e um nível de endividamento controlado. No entanto, por operar em um setor altamente cíclico, esses resultados merecem cautela do investidor.",
       "pontos_fortes": [
-        "ROE elevado de 34.37%",
-        "Baixa alavancagem com dívida líquida sobre EBITDA de 0.33x",
-        "Crescimento da receita em 12 meses de 24.63%"
+        "Elevado retorno sobre o patrimônio (ROE de 34,37%) e margem líquida de 10,68%",
+        "Baixa alavancagem financeira, com Dívida Líquida/EBITDA em 0,33x e boa liquidez corrente (1,67x)",
+        "Múltiplos de preço atrativos (P/L de 3,82 e EV/EBITDA de 2,27x), negociando abaixo das métricas de Graham e Bazin"
       ],
       "riscos": [
-        "P/L muito baixo de 4.03, que pode indicar lucro não recorrente",
-        "P/VP de 1.38 acima do valor patrimonial"
+        "Setor de incorporação imobiliária é sensível a ciclos macroeconômicos e taxas de juros",
+        "P/L muito comprimido (3,82) pode refletir um pico de ciclo ou eventos não recorrentes nos últimos 12 meses",
+        "Crescimento moderado do lucro (4,67%) frente ao avanço mais expressivo da receita (24,63%)"
       ],
-      "leitura_fatos": "Os fatos recentes incluem a transição de CEO, distribuição de dividendos intercalares, revisão de projeções e a entrada da empresa no Índice Bovespa.",
+      "leitura_fatos": "Os comunicados recentes destacam a inclusão no Ibovespa, a transição no comando executivo (CEO) e a aprovação de novos planos de recompra e dividendos intercalares, além da revisão de projeções para 2026.",
       "fatos": [
         {
           "data": "2026-11-05",
@@ -544,67 +547,72 @@
         }
       ]
     },
-    "CURY3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Cury apresenta forte crescimento de receita e lucro nos últimos 12 meses, acompanhados por uma rentabilidade elevada com ROE de 66.38%. A empresa possui caixa líquido, refletido em uma dívida líquida sobre EBITDA negativa de -0.19x.",
+    "PLPL3": {
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Plano & Plano atua no setor de incorporações e apresenta múltiplos de avaliação baixos, com P/L de 3,29 e P/VP de 0,79. A companhia mantém um retorno sobre o patrimônio elevado, com ROE de 24,01%, aliado a um dividend yield de 10,80%. No entanto, embora a receita tenha avançado 14,47%, o lucro recuou 35,16% nos últimos 12 meses.",
       "pontos_fortes": [
-        "Crescimento da receita em 12m de 28.89%",
-        "ROE elevado de 66.38%",
-        "Posição de caixa líquido com Dív. líquida/EBITDA de -0.19x"
+        "Retorno sobre o patrimônio líquido (ROE) robusto de 24,01%.",
+        "Balanço equilibrado com dívida líquida sobre EBITDA de 0,81x e liquidez corrente de 3,27x.",
+        "Dividend yield atrativo de 10,80% nos últimos 12 meses."
       ],
       "riscos": [
-        "P/VP elevado em 5.36x, o que pede conferência sobre as expectativas de preço",
-        "Dividend yield de 14.57% que pode incluir pagamentos extraordinários e vale conferir a sustentabilidade",
-        "Preço atual acima do valor justo calculado pelo método de Graham"
+        "Queda expressiva de 35,16% no lucro líquido nos últimos 12 meses.",
+        "Sensibilidade típica do setor de construção civil e incorporação a ciclos econômicos.",
+        "Múltiplos muito baixos (P/L de 3,29) que demandam conferir se houve receitas não recorrentes na base."
       ],
-      "leitura_fatos": "Os fatos recentes mostram a divulgação de prévias e resultados trimestrais, além da entrada da empresa no índice IBrX 50.",
+      "leitura_fatos": "Os comunicados recentes destacam a entrada da ação no índice IBrX 100 da B3 e atualizações na governança, como um novo acordo de acionistas e mudanças no conselho.",
       "fatos": [
         {
-          "data": "2026-10-08",
+          "data": "2026-11-11",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Apresentação Institucional 3T26 e 9M26"
+          "assunto": "Apresentação de Resultados 3T26"
         },
         {
-          "data": "2026-10-08",
+          "data": "2026-10-14",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Prévia de resultados 3T26 e 9M26"
+          "assunto": "Prévia 3T26"
         },
         {
-          "data": "2026-09-09",
+          "data": "2026-09-10",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Entrada da Cury no IBrX 50"
+          "assunto": "Plano&ampPlano (PLPL3) passa a integrar o IBrX 100 da B3"
         },
         {
-          "data": "2026-08-20",
+          "data": "2026-08-27",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Participação de executivo em evento online"
+          "assunto": "Apresentação Institucional"
         },
         {
-          "data": "2026-08-12",
+          "data": "2026-08-13",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Apresentação do webcast de resultados do 2T26 e 6M26"
+          "assunto": "Apresentação de Resultados 2T26 | 2Q26"
         },
         {
           "data": "2026-08-11",
           "categoria": "Comunicado ao Mercado",
-          "assunto": "Apresentação Institucional 2T26 | 6M26"
+          "assunto": "Alteração na Composição do Conselho de Administração"
+        },
+        {
+          "data": "2026-08-10",
+          "categoria": "Fato Relevante",
+          "assunto": "Novo Acordo de Acionistas"
         }
       ]
     },
     "GRND3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Grendene apresenta um dividend yield muito alto de 29.67% e P/L de 6.00, combinados com uma queda de 20.77% no lucro em 12 meses. A empresa possui caixa líquido positivo e boa solidez financeira.",
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Grendene apresenta uma sólida estrutura de capital com caixa líquido e boa rentabilidade, refletida no ROE de 17,10%. As ações são negociadas a múltiplos baixos de P/L e P/VP, além de exibirem um Dividend Yield muito elevado. No entanto, o negócio enfrenta retração recente nas receitas e no lucro líquido.",
       "pontos_fortes": [
-        "Boa rentabilidade com ROE de 17.10%",
-        "Caixa líquido positivo com Dívida líquida sobre EBITDA de -0.29x",
-        "Alta liquidez corrente de 3.60x"
+        "Balanço muito sólido, com dívida líquida negativa (-0,29x EBITDA) e liquidez corrente de 3,60x.",
+        "Rentabilidade elevada com ROE de 17,10% e margem líquida de 22,21%.",
+        "Múltiplos de valuation baixos, com P/L de 6,01 e P/VP de 1,03."
       ],
       "riscos": [
-        "Dividend yield de 29.67% é incomum e pode indicar pagamento de proventos extraordinários que vale conferir",
-        "Queda de 20.77% no lucro e de 2.68% na receita em 12 meses",
-        "P/L baixo de 6.00 que exige cautela para verificar se há lucros não recorrentes"
+        "Dividend Yield atípico de 29,59%, que sugere proventos extraordinários e pode não ser sustentável.",
+        "Queda operacional recente, com receita recuando 2,68% e lucro encolhendo 20,77% em 12 meses.",
+        "Lucro líquido superior ao EBITDA (R$ 562,7 mi vs R$ 368,1 mi), apontando forte impacto financeiro ou não operacional que vale conferir."
       ],
-      "leitura_fatos": "Os fatos recentes incluem a aprovação de um novo programa de recompra de ações e a alienação de subsidiária nos Estados Unidos.",
+      "leitura_fatos": "Os comunicados recentes destacam a aprovação de um novo programa de recompra de ações e a alienação da subsidiária americana Grendene Global Brands USA.",
       "fatos": [
         {
           "data": "2026-11-06",
@@ -628,20 +636,98 @@
         }
       ]
     },
-    "CYRE3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "A Cyrela apresenta indicadores atrativos com um P/L de 4.22 e um dividend yield elevado de 16.18%, o que pode refletir lucros ou dividendos não recorrentes que exigem conferência. A rentabilidade é sólida, com ROE de 18.26% e margem líquida de 20.67%.",
+    "BMGB4": {
+      "modelo": "gemini-3.8-flash",
+      "resumo": "O Banco BMG negocia com múltiplos de avaliação bastante descontados, com P/L de 1,94 e P/VP de 0,24. A instituição apresenta retorno sobre o patrimônio (ROE) de 12,25% e crescimento de dois dígitos no lucro dos últimos 12 meses. O Dividend Yield atinge expressivos 27,50%, patamar atípico que demanda atenção aos fatores que compuseram essa distribuição.",
       "pontos_fortes": [
-        "ROE de 18.26% indicando boa rentabilidade",
-        "Boa solidez com liquidez corrente de 3.37x",
-        "Crescimento positivo da receita de 10.99% em 12 meses"
+        "Múltiplos de preço atrativos em relação ao patrimônio (P/VP de 0,24) e lucros passados.",
+        "Retorno sobre o patrimônio (ROE) de 12,25% com lucro líquido anual de R$ 629,8 milhões.",
+        "Crescimento do lucro líquido de 12,28% nos últimos 12 meses."
       ],
       "riscos": [
-        "P/L muito baixo de 4.22 e dividend yield de 16.18% pedem conferência de eventos extraordinários",
-        "Dívida líquida sobre EBITDA em 1.91x exige monitoramento do endividamento"
+        "Dividend Yield muito elevado de 27,50%, que pode indicar eventos não recorrentes ou insustentabilidade no ritmo de pagamentos.",
+        "P/L de 1,94 extremamente baixo, o que exige verificar a qualidade e a continuidade do lucro recente.",
+        "ROA modesto de 1,41%, comum no setor bancário, mas que reflete a baixa margem sobre o total de ativos geridos."
       ],
-      "leitura_fatos": "Os fatos recentes incluem a divulgação da prévia do terceiro trimestre de 2026 e discussões sobre distrato e alienação de ativos.",
+      "leitura_fatos": "Os comunicados recentes destacam a continuidade da distribuição de proventos com pagamento de JCP no 3T26, emissão de letras financeiras e atualizações de rating por agências de crédito.",
       "fatos": [
+        {
+          "data": "2026-11-05",
+          "categoria": "Fato Relevante",
+          "assunto": "Pagamento JCP 3T26"
+        },
+        {
+          "data": "2026-11-05",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Apresentação Institucional 3T26"
+        },
+        {
+          "data": "2026-11-05",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "3Q26 Video Conference"
+        },
+        {
+          "data": "2026-11-05",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Apresentação Videoconferência 3T26"
+        },
+        {
+          "data": "2026-11-05",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "3Q26 Institutional Presentation"
+        },
+        {
+          "data": "2026-10-21",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Conclusão 8a Emissão Letras Financeiras Públicas"
+        },
+        {
+          "data": "2026-10-14",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Revisão Perspectiva Rating Moodys Local"
+        },
+        {
+          "data": "2026-09-08",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "BMGB4 nos Índices da B3"
+        },
+        {
+          "data": "2026-08-27",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Conclusão da cessão sem retenção de riscos e benefícios Cartões INSS"
+        },
+        {
+          "data": "2026-07-30",
+          "categoria": "Fato Relevante",
+          "assunto": "Atualização Rating Fitch"
+        }
+      ]
+    },
+    "CYRE3": {
+      "modelo": "gemini-3.8-flash",
+      "resumo": "A Cyrela apresenta múltiplos de valuation baixos, negociando a 0,73x seu valor patrimonial e com um P/L de 4,38. A empresa mantém uma boa rentabilidade, com ROE de 16,60% e sólida margem líquida de 18,89%. O dividend yield elevado de 16,63% chama a atenção e merece análise sobre sua recorrência.",
+      "pontos_fortes": [
+        "Forte geração de caixa e retorno aos acionistas com dividend yield de 16,63%.",
+        "Alta folga financeira de curto prazo, com liquidez corrente em 3,13x.",
+        "Bons níveis de rentabilidade com ROE de 16,60% e margem bruta de 33,30%."
+      ],
+      "riscos": [
+        "Queda de 7,15% no lucro dos últimos 12 meses, refletindo os desafios do setor imobiliário.",
+        "Endividamento moderado com Dívida Líquida/EBITDA em 2,15x, que exige atenção aos juros.",
+        "O dividend yield muito elevado (16,63%) pode incluir pagamentos extraordinários não sustentáveis."
+      ],
+      "leitura_fatos": "Os comunicados recentes apontam movimentações societárias ativas, destacando a aprovação de um novo programa de recompra e cancelamento de ações, além de negociações e distratos envolvendo a alienação de ativos.",
+      "fatos": [
+        {
+          "data": "2026-11-12",
+          "categoria": "Fato Relevante",
+          "assunto": "Aprovação do Novo Programa de Recompra de Ações||Cancelamento de Ações em Tesouraria"
+        },
+        {
+          "data": "2026-11-12",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Call de Resultados 3Q26"
+        },
         {
           "data": "2026-10-13",
           "categoria": "Comunicado ao Mercado",
@@ -665,28 +751,54 @@
       ]
     },
     "BNBR3": {
-      "modelo": "gemini-3.5-flash-lite",
-      "resumo": "O Banco do Nordeste apresenta um P/L de 3.72 e um P/VP de 0.61, negociando abaixo do seu valor patrimonial. O ROE registrado foi de 16.40% nos últimos doze meses, acompanhado de um lucro de R$ 2.76 bi.",
+      "modelo": "gemini-3.8-flash",
+      "resumo": "O Banco do Nordeste negocia com múltiplos de avaliação baixos, com P/L de 3,90 e P/VP de 0,59, além de manter um ROE de 15,21%. O banco gerou R$ 2,63 bilhões de lucro nos últimos 12 meses e oferece um dividend yield de 6,53%. O preço da ação está abaixo das referências calculadas de Graham e Bazin.",
       "pontos_fortes": [
-        "ROE atrativo de 16.40%",
-        "Negociado abaixo do valor patrimonial com P/VP de 0.61",
-        "Dividend yield de 6.62%"
+        "Múltiplos de preço atrativos (P/L de 3,90 e P/VP de 0,59)",
+        "Rentabilidade sólida com ROE de 15,21% e ROA de 3,25%",
+        "Dividend yield de 6,53% nos últimos 12 meses"
       ],
       "riscos": [
-        "Queda de 23.58% no lucro em 12 meses, o que exige conferência",
-        "P/L muito baixo de 3.72 que pode refletir ganhos não recorrentes"
+        "Queda de 22,11% no lucro líquido apurado nos últimos 12 meses",
+        "P/L muito baixo que demanda checar a recorrência dos resultados recentes",
+        "Movimentações e licitações frequentes em programas operacionais relevantes"
       ],
-      "leitura_fatos": "Os fatos recentes mostram divulgações de resultados trimestrais, editais dos programas Agroamigo e Crediamigo, além de mudanças na diretoria e conselho.",
+      "leitura_fatos": "Os comunicados recentes destacam a divulgação dos resultados do 3T2026 e uma série de editais e esclarecimentos sobre licitações dos programas Crediamigo e Agroamigo.",
       "fatos": [
+        {
+          "data": "2026-11-13",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Apresentação de Resultados - Banco do Nordeste - 3T2026"
+        },
+        {
+          "data": "2026-11-12",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Demonstrações Contábeis_3T26_Live de Resultados"
+        },
+        {
+          "data": "2026-11-12",
+          "categoria": "Comunicado ao Mercado",
+          "assunto": "Eleição de membro do Comitê de Auditoria"
+        },
+        {
+          "data": "2026-11-11",
+          "categoria": "Fato Relevante",
+          "assunto": "Esclarecimentos Licitação Programa Crediamigo"
+        },
+        {
+          "data": "2026-11-11",
+          "categoria": "Fato Relevante",
+          "assunto": "Esclarecimentos Licitação Crediamigo"
+        },
+        {
+          "data": "2026-11-10",
+          "categoria": "Fato Relevante",
+          "assunto": "Edital Agroamigo"
+        },
         {
           "data": "2026-10-19",
           "categoria": "Fato Relevante",
           "assunto": "Resultado de Edital Agroamigo"
-        },
-        {
-          "data": "2026-10-09",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "NOTICIA VEÍCULADA NA MÍDIA"
         },
         {
           "data": "2026-10-08",
@@ -694,34 +806,14 @@
           "assunto": "Edital Agroamigo"
         },
         {
-          "data": "2026-10-07",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Alteração no Conselho de Administração e na Diretoria Executiva"
-        },
-        {
           "data": "2026-09-30",
           "categoria": "Fato Relevante",
           "assunto": "Edital Crediamigo"
         },
         {
-          "data": "2026-08-14",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Apresentação de Resultados - Banco do Nordeste - 2T2026"
-        },
-        {
-          "data": "2026-08-12",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Aprovação das DFs 2T26"
-        },
-        {
           "data": "2026-08-06",
           "categoria": "Fato Relevante",
           "assunto": "Edital Agroamigo"
-        },
-        {
-          "data": "2026-07-31",
-          "categoria": "Comunicado ao Mercado",
-          "assunto": "Renúncia de membro do Conselho de Administração"
         }
       ]
     }
